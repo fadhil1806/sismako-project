@@ -1,0 +1,41 @@
+
+        /* Styling for images */
+        .img-icons {
+            width: 75px;
+            background: transparent;
+        }
+        /* Styling for cards */
+        .card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-radius: 10px;
+            padding: 15px;
+            color: #fff;
+        }
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+        /* Styling for card body */
+        .card-body {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .content-body-1 img {
+            transition: transform 0.5s ease-in-out;
+        }
+        .content-body-1:hover img {
+            transform: scale(1.5);
+        }
+        .btn-group a {
+            margin-right: 10px;
+        }
+        /* Card Colors */
+        .card-guru { background-color: #4CAF50; }
+        .card-siswa { background-color: #2196F3; }
+        .card-mutasi { background-color: #FF9800; }
+        .card-award { background-color: #9C27B0; }
+        .card-tendik { background-color: #F44336; }
+        .card-kelas { background-color: #00BCD4; }
+        .card-kelulusan { background-color: #FFC107; }
+        .card-pkl { background-color: #8BC34A; }
