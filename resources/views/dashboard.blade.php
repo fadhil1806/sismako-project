@@ -138,8 +138,15 @@
                             <h2 class="text-black">Tendik</h2>
                         </div>
                         <div class="content-body-2 d-flex justify-content-center align-items-center" style="gap: 20px; width: 100%">
-                            <div class="content-body-2-1" style="width: 50%">
-                                <h1 class="text-center text-black">{{$totalTendik}} Orang</h1>
+                            <div class="content-body-2 d-flex" style="gap: 20px; width: 100%">
+                                <div class="content-body-2-1" style="width: 50%">
+                                    <h3 class="text-center text-black">Active</h3>
+                                    <h1 class="text-center text-black">{{$totalTendikAktif}}</h1>
+                                </div>
+                                <div class="content-body-2-2" style="width: 50%">
+                                    <h3 class="text-center text-black">Off</h3>
+                                    <h1 class="text-center text-black">{{$totalTendikTidakAktif}}</h1>
+                                </div>
                             </div>
                         </div>
                     </div>
