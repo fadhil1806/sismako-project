@@ -9,6 +9,25 @@
             </div>
         </div>
     </div>
+
+    <div class="container mt-4">
+        <form action="{{ route('pkl.sekolah.index') }}" method="GET" id="filterForm">
+            <div class="row">
+                <div class="col-lg-4">
+                    <select name="filter_perusahaan" class="form-control" onchange="document.getElementById('filterForm').submit();">
+                        <option value="">Semua Perusahaan</option>
+                        @foreach ($perusahaanList as $perusahaan)
+                            <option value="{{ $perusahaan }}" {{ request('filter_perusahaan') == $perusahaan ? 'selected' : '' }}>{{ $perusahaan }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-lg-4">
+                    <button type="submit" class="btn btn-primary">Filter</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
     <div class="mt-4">
         <div class="table-responsive shadow shadow-sm" style="margin-right: 20px; margin-left: 20px">
             <table class="table card-table table-vcenter text-nowrap datatable">

@@ -83,10 +83,6 @@
                             {{ \Carbon\Carbon::parse($guru->tanggal_lahir)->format('d F Y') }}</td>
                     </tr>
                     <tr>
-                        <th>Alamat</th>
-                        <td>: {{ $guru->alamat }}</td>
-                    </tr>
-                    <tr>
                         <th>Nomor Handphone</th>
                         <td>: {{ $guru->no_hp }}</td>
                     </tr>
@@ -141,6 +137,10 @@
                     <tr>
                         <th>Status Kepegawaian</th>
                         <td>: {{ $guru->status_kepegawaian }}</td>
+                    </tr>
+                    <tr>
+                        <th>Alamat</th>
+                        <td>: {{ str_replace('==', '', $guru->alamat) }}</td>
                     </tr>
                 </table>
             </div>

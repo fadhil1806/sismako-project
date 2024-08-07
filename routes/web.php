@@ -28,7 +28,7 @@ Route::view('pkl', 'database.pkl.pkl')
 
 
 Route::controller(PklAdministrasiSekolahController::class)->group(function () {
-    Route::get('pkl/adm-sekolah', 'sekolah')->name('pkl.sekolah.index');
+    Route::get('pkl/adm-sekolah', 'index')->name('pkl.sekolah.index');
     Route::get('pkl/adm-sekolah/create', 'create')->name('pkl.sekolah.create');
     Route::post('pkl/adm-sklh/create/data', 'store')->name('pkl.sekolah.store');
     Route::get('pkl/adm-sekolah/edit/{id}', 'edit')->name('pkl.sekolah.edit');

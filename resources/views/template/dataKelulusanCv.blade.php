@@ -77,8 +77,20 @@
                         <td>: {{ $data_kelulusan->siswa->nama }}</td>
                     </tr>
                     <tr>
+                        <th>Tempat Tanggal Lahir</th>
+                        <td>{{$data_kelulusan->siswa->tempat_tanggal_lahir . ', ' . $data_kelulusan->siswa->tanggal_lahir}}</td>
+                    </tr>
+                    <tr>
+                        <th>Jenis Kelamin</th>
+                        <td>{{$data_kelulusan->siswa->jenis_kelamin}}</td>
+                    </tr>
+                    <tr>
                         <th>No. NISN</th>
                         <td>: {{ $data_kelulusan->siswa->nisn }}</td>
+                    </tr>
+                    <tr>
+                        <th>No. NIS</th>
+                        <td>: {{ $data_kelulusan->siswa->nis }}</td>
                     </tr>
                     <tr>
                         <th>Tahun Pelajaran</th>
@@ -107,6 +119,10 @@
                     <tr>
                         <th>Email</th>
                         <td>: {{ $data_kelulusan->email }}</td>
+                    </tr>
+                    <tr>
+                        <th>Alamat</th>
+                        <td>: {{ str_replace('==', '', $data_kelulusan->siswa->alamat) }}</td>
                     </tr>
                 </table>
             </div>

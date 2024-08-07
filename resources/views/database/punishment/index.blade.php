@@ -63,7 +63,7 @@
                         <td>{{ $data->siswa->nisn }}</td>
                         <td>{{$data->siswa->angkatan}}</td>
                         <td>{{ $data->jenis_pelanggaran }}</td>
-                        <td>{{ $data->kronologi }}</td>
+                        <td>{{ \Illuminate\Support\Str::limit($data->kronologi, 20, '...') }}</td>
                         <td>{{ $data->tindak_lanjut }}</td>
                         <td>{{ $data->pengawasan_guru }}</td>
                         <td>{{ $data->pengurangan_point . ' Point' }}</td>
@@ -149,7 +149,7 @@
                             <td>${item.siswa.nisn}</td>
                             <td>${item.siswa.angkatan}</td>
                             <td>${item.jenis_pelanggaran}</td>
-                            <td>${item.kronologi}</td>
+                            <td>${item.kronologi.length > 20 ? item.kronologi.substring(0, 20) + '...' : item.kronologi}</td>
                             <td>${item.tindak_lanjut}</td>
                             <td>${item.pengawasan_guru}</td>
                             <td>${item.pengurangan_point} Point</td>

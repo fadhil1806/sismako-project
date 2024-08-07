@@ -70,11 +70,20 @@
                         @enderror
                     </div>
                 </div>
-                <div class="col-lg-12">
+                <div class="col-lg-8">
                     <div class="mb-3">
                         <label class="form-label">Tanggal Mutasi</label>
                         <input type="date" class="form-control" name="tanggal_mutasi" value="{{ old('tanggal_mutasi', $dataMutasi->tanggal_mutasi->format('Y-m-d')) }}">
                         @error('tanggal_mutasi')
+                            <div class="text-danger mt-2">{{$message}}</div>
+                        @enderror
+                    </div>
+                </div>
+                <div class="col-lg-4" id="path_dokumen_pendukung_tambahan">
+                    <div class="mb-3">
+                        <label class="form-label">Dokumen Tambahan</label>
+                        <input type="file" class="form-control" name="path_dokumen_pendukung_tambahan" id="path_dokumen_pendukung_tambahan" value="{{ old('path_dokumen_pendukung_tambahan') }}">
+                        @error('path_dokumen_pendukung_tambahan')
                             <div class="text-danger mt-2">{{ $message }}</div>
                         @enderror
                     </div>
@@ -127,4 +136,35 @@
             toggleMutasi(); // Initial call to set the correct visibility on page load
         });
     </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const data = @json($dataMutasi);
+
+            const setFileInput = (fileName, inputName) => {
+                if (fileName) {
+                    const inputElement = document.querySelector(`input[name="${inputName}"]`);
+                    if (inputElement) {
+
+                        fetch(fileName)
+                            .then(response => response.blob())
+                            .then(blob => {
+                                const file = new File([blob], fileName, {
+                                    type: blob.type,
+                                    lastModified: new Date(),
+                                });
+
+                                const dataTransfer = new DataTransfer();
+                                dataTransfer.items.add(file);
+                                inputElement.files = dataTransfer.files;
+                            })
+                            .catch(error => console.error('Error fetching file:', error));
+                    }
+                }
+            };
+
+            setFileInput(data.path_dokumen_pendukung_tambahan, 'path_dokumen_pendukung_tambahan');
+
+        });
+    </script>
+
 </x-app-layout>

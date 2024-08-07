@@ -82,10 +82,6 @@
                             {{ \Carbon\Carbon::parse($tendik->tanggal_lahir)->format('d F Y') }}</td>
                     </tr>
                     <tr>
-                        <th>Alamat</th>
-                        <td>: {{ $tendik->alamat }}</td>
-                    </tr>
-                    <tr>
                         <th>Nomor Handphone</th>
                         <td>: {{ $tendik->no_hp }}</td>
                     </tr>
@@ -136,6 +132,10 @@
                     <tr>
                         <th>Status Kepegawaian</th>
                         <td>: {{ $tendik->status_kepegawaian }}</td>
+                    </tr>
+                    <tr>
+                        <th>Alamat</th>
+                        <td>: {{ str_replace('==', '', $tendik->alamat) }}</td>
                     </tr>
                 </table>
             </div>

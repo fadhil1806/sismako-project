@@ -10,11 +10,27 @@ use App\Models\PklAdministrasiSekolah;
 class PklAdministrasiSekolahController extends Controller
 {
     // Display a listing of the resource
-    public function index()
-    {
-        $sekolah = PklAdministrasiSekolah::all();
-        return response()->json($sekolah);
+
+
+public function index(Request $request)
+{
+    // Ambil daftar perusahaan tempat PKL yang unik
+    $perusahaanList = PklAdministrasiSekolah::select('nama_perusahaan')->distinct()->pluck('nama_perusahaan');
+
+    // dd($perusahaanList);
+    $query = PklAdministrasiSekolah::query();
+
+    // Tambahkan filter berdasarkan perusahaan tempat PKL jika ada input
+    if ($request->filled('filter_perusahaan')) {
+        $query->where('nama_perusahaan', $request->filter_perusahaan);
     }
+
+    $dataPklSekolah = $query->get();
+
+    return view('database.pkl.adm-sklh.index', compact('dataPklSekolah', 'perusahaanList'));
+}
+
+
 
     public function sekolah() {
         $dataPklSekolah = PklAdministrasiSekolah::all();
