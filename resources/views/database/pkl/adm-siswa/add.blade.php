@@ -3,6 +3,7 @@
 
     <div class="py-12 container">
         <div class="col-12">
+            <a href="{{route('pkl.siswa.index')}}" class="btn btn-secondary mb-4">Back</a>
             <form class="card" method="POST" action="{{ route('pkl.siswa.store') }}" enctype="multipart/form-data">
                 @csrf
                 <div class="card-body">

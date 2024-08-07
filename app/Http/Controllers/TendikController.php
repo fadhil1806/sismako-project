@@ -160,7 +160,7 @@ class TendikController extends Controller
             SertifikatTendik::insert($sertifikatData);
         }
 
-        return redirect()->route('tendik.index')->with('success', 'Data tendik berhasil disimpan.');
+        return redirect()->route('tendik.index')->with('success', 'Data tendik berhasil di update.');
     }
 
 
@@ -282,7 +282,7 @@ class TendikController extends Controller
             SertifikatTendik::insert($sertifikatData);
         }
 
-        return redirect()->route('tendik.index')->with('success', 'Data tendik berhasil disimpan.');
+        return redirect()->route('tendik.index')->with('success', 'Data tendik berhasil di tambahkan.');
     }
 
 
@@ -311,8 +311,7 @@ class TendikController extends Controller
         if (Storage::exists($folderPath)) {
             $ijazahFiles = Storage::files($folderPath);
         } else {
-            // Handle jika folder tidak ditemukan atau kosong
-            // Misalnya: Tampilkan pesan atau atur $ijazahFiles menjadi array kosong
+
         }
 
         return view('database.tendik.edit', compact('tendik', 'ijazahFiles'));

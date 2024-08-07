@@ -102,7 +102,7 @@ class DataMutasiController extends Controller
 
         DataMutasi::create($validatedData);
 
-        return redirect()->route('mutasi.index')->with('success', 'Data berhasil disimpan');
+        return redirect()->route('mutasi.index')->with('success', 'Data berhasil ditambahkan');
     }
 
     public function edit($id)
@@ -124,7 +124,7 @@ class DataMutasiController extends Controller
                 'asal_sekolah' => 'nullable|string|max:50',
                 'tujuan_berikutnya' => 'nullable|string|max:50',
                 'alasan' => 'required|string',
-                'path_dokumen_pendukung_tambahan' => 'required|string',
+                'path_dokumen_pendukung_tambahan' => 'required|file',
             ]);
         } catch (\Illuminate\Validation\ValidationException $e) {
             return response()->json(['errors' => $e->errors()], 422);
@@ -132,7 +132,7 @@ class DataMutasiController extends Controller
 
         DataMutasi::findOrFail($id)->update($validatedData);
 
-        return redirect()->route('mutasi.index')->with('success', 'Data berhasil disimpan');
+        return redirect()->route('mutasi.index')->with('success', 'Data berhasil di update');
     }
 
     public function destroy($id)
@@ -144,6 +144,6 @@ class DataMutasiController extends Controller
         $dataMutasi->delete();
 
         // Mengembalikan respon sukses
-        return redirect()->route('mutasi.index')->with('success', 'Data berhasil disimpan');
+        return redirect()->route('mutasi.index')->with('success', 'Data berhasil dihapus');
     }
 }

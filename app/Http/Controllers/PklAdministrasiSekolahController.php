@@ -77,7 +77,7 @@ public function index(Request $request)
         }
 
         $sekolah = PklAdministrasiSekolah::create($validatedData);
-        return redirect()->route('pkl.sekolah.index')->with('success', 'Data berhasil di update');
+        return redirect()->route('pkl.sekolah.index')->with('success', 'Data berhasil di tambahkan');
     }
 
     // Display the specified resource
@@ -172,6 +172,6 @@ public function index(Request $request)
     // Hapus data dari database
     $sekolah->delete();
 
-    return redirect()->route('pkl.sekolah.index')->with('success', 'Data berhasil di update');
+    return redirect()->route('pkl.sekolah.index')->with('success', 'Data berhasil di hapus');
 }
 }

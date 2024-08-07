@@ -141,10 +141,6 @@ private function zipPdfFiles()
 
 
 
-    /**
-     * Show the form for creating a new resource.
-     */
-
      public function getSiswaByAngkatan(Request $request) {
         $angkatan = $request->angkatan;
         $siswa = Siswa::where('angkatan', $angkatan)
@@ -198,7 +194,7 @@ private function zipPdfFiles()
     // Create the punishment record
     Punishment::create($validatedData);
 
-    return redirect()->route('punishment.index')->with('success', 'Punishment created and points updated successfully.');
+    return redirect()->route('punishment.index')->with('success', 'data punishment berhasil ditambahkan');
 }
 
     /**
@@ -274,8 +270,8 @@ private function zipPdfFiles()
          // Update punishment dengan data baru
          $punishment->update($validatedData);
 
-         return redirect()->route('punishment.index')->with('success', 'Punishment updated and points recalculated successfully.');
-     }
+         return redirect()->route('punishment.index')->with('success', 'data punishment berhasil di update');
+        }
 
     /**
      * Remove the specified resource from storage.
@@ -297,6 +293,6 @@ private function zipPdfFiles()
     // Hapus punishment
     $punishment->delete();
 
-    return redirect()->route('punishment.index')->with('success', 'Punishment deleted and points recalculated successfully.');
+    return redirect()->route('punishment.index')->with('success', 'data punishment berhasil dihapus');
 }
 }

@@ -2,6 +2,7 @@
     @include('inc.form')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <div class="container mt-6">
+        <a href="{{route('guru.index')}}" class="btn btn-secondary mb-4">Back</a>
         <form method="post" action="{{route('guru.store')}}" id="multiStepForm" enctype="multipart/form-data">
             @csrf
             <div id="step-1">

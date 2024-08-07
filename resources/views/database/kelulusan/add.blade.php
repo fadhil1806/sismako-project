@@ -1,6 +1,7 @@
 <x-app-layout>
     @include('inc.form')
     <div class="container mt-5">
+        <a href="{{route('kelulusan.index')}}" class="btn btn-secondary mb-4">Back</a>
         <form method="post" action="{{route('kelulusan.store')}}" enctype="multipart/form-data">
             @csrf
             <div class="row">

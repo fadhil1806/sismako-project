@@ -1,6 +1,7 @@
 <x-app-layout>
     @include('inc.form')
     <div class="container mt-6">
+        <a href="{{route('tendik.index')}}" class="btn btn-secondary mb-4">Back</a>
         <form method="post" action="{{route('tendik.update', $tendik->id)}}" id="multiStepForm" enctype="multipart/form-data">
             @method('PUT')
             @csrf
@@ -121,7 +122,7 @@
                     <div class="col-lg-12">
                         <div class="mb-3">
                             <label class="form-label">Alamat</label>
-                            <textarea class="form-control" rows="4" name="alamat">={{ old('alamat', $tendik->alamat) }}</textarea>
+                            <textarea class="form-control" rows="4" name="alamat">{{ str_replace('=', '', old('alamat', $tendik->alamat)) }}</textarea>
                             @error('alamat')
                                 <div class="text-danger mt-2">{{$message}}</div>
                             @enderror

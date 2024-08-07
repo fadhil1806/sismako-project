@@ -3,6 +3,7 @@
     @include('inc.form')
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <div class="container mt-3">
+        <a href="{{route('dashboard')}}" class="btn btn-secondary">Back</a>
         <a href="{{route('tendik.create')}}" class="btn btn-primary">Tambah data Tendik</a>
     </div>
     <div class="mt-4">
@@ -59,5 +60,31 @@
                 </tbody>
             </table>
         </div>
+        @if (session('success'))
+            <div class="alert alert-success alert-dismissible position-absolute bottom-0 end-0 me-3" role="alert"
+                id="alertSuccess">
+                <div class="d-flex">
+                    <div>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon alert-icon" width="24" height="24"
+                            viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                            <path d="M5 12l5 5l10 -10"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        {{ session('success') }}
+                    </div>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="close"
+                    onclick="disabledAlert()" style="cursor: pointer;"></button>
+            </div>
+        @endif
+
+        <script>
+            function disabledAlert() {
+                document.getElementById('alertSuccess').style.display = 'none';
+            }
+        </script>
     </div>
 </x-app-layout>

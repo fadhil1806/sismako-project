@@ -3,6 +3,7 @@
 
     <div class="py-12 container">
         <div class="col-12">
+            <a href="{{route('pkl.sekolah.index')}}" class="btn btn-secondary mb-4">Back</a>
             <form class="card" method="POST" action="{{ route('pkl.sekolah.store') }}" enctype="multipart/form-data">
                 @csrf
                 <div class="card-body">
@@ -47,7 +48,7 @@
                     </div>
                 </div>
                 <div class="card-footer text-end">
-                    <button type="submit" class="btn btn-primary">Update Profile</button>
+                    <button type="submit" class="btn btn-primary">Submit</button>
                 </div>
             </form>
         </div>

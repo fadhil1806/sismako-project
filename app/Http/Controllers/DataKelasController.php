@@ -206,9 +206,9 @@ class DataKelasController extends Controller
             'id_siswa.unique' => 'Nama ini sudah digunakan pada kelas lain'
         ]);
 
-        $dataKelas = DataKelas::create($validatedData);
+        DataKelas::create($validatedData);
 
-        return response()->json($dataKelas, 201);
+        return redirect()->route('kelas.index')->with('success', 'Data berhasil di tambahkan');
     }
 
 
@@ -242,7 +242,7 @@ class DataKelasController extends Controller
         $kelas = DataKelas::findOrFail($id);
         $kelas->update($request->all());
 
-        return redirect()->route('kelas.index')->with('success', 'Kelas updated successfully');
+        return redirect()->route('kelas.index')->with('success', 'Data berhasil di update');
     }
 
     /**
@@ -253,6 +253,6 @@ class DataKelasController extends Controller
         $kelas = DataKelas::findOrFail($id);
         $kelas->delete();
 
-        return redirect()->route('kelas.index')->with('success', 'Kelas deleted successfully');
+        return redirect()->route('kelas.index')->with('success', 'Data berhasil di hapus');
     }
 }

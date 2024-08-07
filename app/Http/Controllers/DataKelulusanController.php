@@ -91,7 +91,7 @@ public function create()
 
     DataKelulusan::create($validatedData);
 
-        return redirect()->route('kelulusan.index')->with('success', 'Data berhasil disimpan');
+        return redirect()->route('kelulusan.index')->with('success', 'Data berhasil di tambahkan');
     }
     public function update(Request $request, $id)
     {
@@ -118,7 +118,7 @@ public function create()
         $dataKelulusan = DataKelulusan::findOrFail($id);
         $dataKelulusan->update($validatedData,);
 
-        return redirect()->route('kelulusan.index')->with('success', 'Data berhasil disimpan');
+        return redirect()->route('kelulusan.index')->with('success', 'Data berhasil di update');
     }
 
     public function destroy($id)

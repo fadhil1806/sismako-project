@@ -11,11 +11,6 @@ use Illuminate\Support\Facades\View;
 
 class DataPrestasiController extends Controller
 {
-    //
-    // public function index() {
-    //     $dataPrestasi = DataPrestasi::all();
-    //     return view('database.prestasi.index', compact('dataPrestasi'));
-    // }
 
     public function index(Request $request)
     {
@@ -79,26 +74,10 @@ class DataPrestasiController extends Controller
     }
 
 
-
-    public function guru() {
-        $dataPrestasi = DataPrestasi::where('status', 'Guru')->get();
-        return view('database.prestasi.guru', compact('dataPrestasi'));
-    }
-
-    public function siswa() {
-        $dataPrestasi = DataPrestasi::where('status', 'Siswa')->get();
-        return view('database.prestasi.siswa', compact('dataPrestasi'));
-    }
     public function create() {
         return view('database.prestasi.add');
     }
 
-    public function createGuru() {
-        return view('database.prestasi.addGuru');
-    }
-    public function createSiswa() {
-        return view('database.prestasi.addSiswa');
-    }
 
     public function store(Request $request)
 {
@@ -123,7 +102,7 @@ class DataPrestasiController extends Controller
     ]));
 
     // Optionally, provide feedback or redirect to another page
-    return redirect()->route('prestasi.index')->with('success', 'Data updated successfully.');
+    return redirect()->route('prestasi.index')->with('success', 'Data berhasil di tambahkan');
 }
 
 public function update(Request $request, $id) {
@@ -160,7 +139,7 @@ public function update(Request $request, $id) {
     }
 
     // Optionally, provide feedback or redirect to another page
-    return redirect()->route('prestasi.index')->with('success', 'Data updated successfully.');
+    return redirect()->route('prestasi.index')->with('success', 'Data berhasil di update');
 }
 
     public function edit($id) {
@@ -173,6 +152,6 @@ public function update(Request $request, $id) {
             File::delete(public_path($prestasi->nama_file));
         }
         $prestasi->delete();
-        return redirect()->route('prestasi.index')->with('success', 'Data updated successfully.');
+        return redirect()->route('prestasi.index')->with('success', 'Data berhasil dihapus');
     }
 }

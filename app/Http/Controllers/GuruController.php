@@ -175,7 +175,7 @@ class GuruController extends Controller
 
         if (!empty($sertifikatData)) SertifikatGuru::insert($sertifikatData);
 
-        return redirect()->route('guru.index')->with('success', 'Data berhasil disimpan');
+        return redirect()->route('guru.index')->with('success', 'Data berhasil ditambahkan');
     }
 
     public function destroy($id)
@@ -196,7 +196,6 @@ class GuruController extends Controller
 
         return redirect()->route('guru.index')->with('success', 'Data berhasil dihapus');
     }
-
     public function edit($id)
     {
         $guru = Guru::with('ijazah', 'sertifikat')->findOrFail($id);

@@ -158,8 +158,7 @@ class SiswaController extends Controller
             FotoSiswa::insert($foto_data);
         }
 
-
-        return redirect()->route('siswa.index')->with('success', 'Data berhasil dihapus');
+        return redirect()->route('siswa.index')->with('success', 'Data berhasil ditambahkan');
     }
 
     public function edit($id)
@@ -210,10 +209,6 @@ class SiswaController extends Controller
         ]);
 
         $siswa = Siswa::findOrFail($id);
-
-        // $nama = $siswa->nama;
-        // $namaDir = str_replace(' ', '_', $nama);
-        // $baseDirOld = public_path("img/Siswa/{$namaDir}");
 
         // Menghapus folder lama jika ada
         $oldDirname = str_replace(' ', '_', $siswa->nama);
@@ -299,7 +294,7 @@ class SiswaController extends Controller
             FotoSiswa::insert($foto_data);
         }
 
-        return redirect()->route('siswa.index')->with('success', 'Data berhasil dihapus');
+        return redirect()->route('siswa.index')->with('success', 'Data berhasil di update');
     }
 
     public function destroy($id)

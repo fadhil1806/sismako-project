@@ -70,7 +70,7 @@ class PklAdministrasiSiswaController extends Controller
 
     PklAdministrasiSiswa::create($validatedData);
 
-    return redirect()->route('pkl.siswa.index')->with('success', 'Data berhasil di update');
+    return redirect()->route('pkl.siswa.index')->with('success', 'Data berhasil di tambahkan');
 }
 
     // Display the specified resource

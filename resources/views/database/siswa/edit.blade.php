@@ -2,6 +2,7 @@
     @include('inc.form')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <div class="container mt-6">
+        <a href="{{route('siswa.index')}}" class="btn btn-secondary mb-4">Back</a>
         <form method="post" action="{{route('siswa.update', $siswa->id)}}" id="multiStepForm" enctype="multipart/form-data">
             @csrf
             <div id="step-1">
@@ -75,7 +76,7 @@
                     <div class="col-lg-12">
                         <div class="mb-3">
                             <label class="form-label">Alamat</label>
-                            <textarea class="form-control" rows="4" name="alamat">{{old('alamat', $siswa->alamat)}}</textarea>
+                            <textarea class="form-control" rows="4" name="alamat">{{ str_replace('=', '', old('alamat', $siswa->alamat)) }}</textarea>
                             @error('alamat')
                                 <div class="text-danger mt-2">{{$message}}</div>
                             @enderror

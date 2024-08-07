@@ -1,13 +1,16 @@
 <x-app-layout>
     @include('inc.form')
     <div class="container mt-5">
+        <a href="{{route('kelulusan.index')}}" class="btn btn-secondary mb-4">Back</a>
         <form method="post" action="{{route('kelulusan.update', $data->id)}}" enctype="multipart/form-data">
             @csrf
             <div class="row">
                 <div class="col-lg-8">
                     <div class="mb-3">
-                        <label class="form-label">Nama Lengkap</label>
-                        <input type="text" class="form-control" name="nama" placeholder="Nama Lengkap" value="{{ old('nama', $data->nama) }}">
+                        <label class="form-label">Nama</label>
+                        <select class="form-control" name="id_siswa" id="nama-select">
+                            <option value="{{$data->id_siswa}}" selected>{{$data->siswa->nama}}</option>
+                        </select>
                         @error('nama')
                             <div class="text-danger mt-2">{{ $message }}</div>
                         @enderror
