@@ -5,7 +5,7 @@
         <form method="post" action="{{ route('mutasi.update', $dataMutasi->id) }}" enctype="multipart/form-data">
             @csrf
             @method('PUT')
-            <div class="row">
+            <div class="row border p-3 rounded-3">
                 <div class="col-lg-8">
                     <div class="mb-3">
                         <label class="form-label">Nama Lengkap</label>

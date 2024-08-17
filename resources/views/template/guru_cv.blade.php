@@ -6,69 +6,173 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Biodata Guru</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+
+
     <style>
+        /* Existing styles */
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Roboto', Arial, sans-serif;
+            background-color: #ffffff;
+            margin: 0;
+            padding: 0;
         }
 
         .container {
-            width: 100%;
-            margin: 0 auto;
-            text-align: left;
+            padding: 20px;
+            border-radius: 10px;
         }
 
         .title {
             text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .title h1 {
+            margin: 0;
+            font-size: 24px;
+            color: #004085;
+        }
+
+        .title h3 {
+            margin: 5px 0;
+            font-size: 18px;
+            color: #666;
         }
 
         .profile {
             display: table;
             width: 100%;
-            margin-top: 30px;
-            font-family: 'Roboto', Arial, sans-serif;
+            margin-top: 20px;
         }
 
         .biodata {
             display: table-cell;
-            width: 65%;
+            width: 60%;
             vertical-align: top;
         }
 
         .profile-img {
             display: table-cell;
-            width: 35%;
-            padding-left: 1rem;
+            width: 40%;
+            padding-left: 20px;
             vertical-align: top;
             text-align: center;
         }
 
         .profile-img img {
-            width: 100%;
+            max-width: 100%;
             height: auto;
             border-radius: 10px;
+            border: 1px solid #ddd;
         }
 
         .biodata table {
             width: 100%;
+            border-collapse: collapse;
         }
 
         .biodata table th,
         .biodata table td {
-            text-align: left;
-            padding: 5px 0;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
         }
 
         .biodata table th {
-            width: 200px;
+            width: 150px;
+            color: #004085;
+            text-align: left;
+            font-weight: 700;
+        }
+
+        .biodata table td {
+            color: #333;
+        }
+
+        .biodata table tr:last-child th,
+        .biodata table tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Print styles */
+        @media print {
+            body {
+                font-family: 'Roboto', Arial, sans-serif;
+                background-color: #ffffff;
+                margin: 0;
+                padding: 0;
+            }
+
+            .container {
+                padding: 10px;
+                border: none;
+                border-radius: 0;
+            }
+
+            .title {
+                text-align: center;
+                margin-bottom: 10px;
+            }
+
+            .title h1 {
+                font-size: 20px;
+            }
+
+            .title h3 {
+                font-size: 16px;
+            }
+
+            .profile {
+                display: block;
+                width: 100%;
+                margin-top: 10px;
+            }
+
+            .biodata,
+            .profile-img {
+                display: block;
+                width: 100%;
+            }
+
+            .profile-img {
+                padding-left: 0;
+                text-align: center;
+            }
+
+            .profile-img img {
+                max-width: 80%;
+                height: auto;
+            }
+
+            .biodata table th,
+            .biodata table td {
+                padding: 4px 0;
+                border-bottom: 1px solid #ddd;
+            }
+
+            .biodata table th {
+                width: auto;
+                color: #004085;
+                font-weight: bold;
+            }
+
+            .biodata table td {
+                color: #333;
+            }
+
+            .biodata table tr:last-child th,
+            .biodata table tr:last-child td {
+                border-bottom: none;
+            }
         }
     </style>
 </head>
 
 <body>
     <div class="container">
-        <div class="title" style="margin-top: 2rem">
-            <h1 style="margin: 0">BIODATA GURU</h1>
-            <h3 style="margin: 0">SMK TI BAZMA KABUPATEN BOGOR</h3>
+        <div class="title">
+            <h1>BIODATA GURU</h1>
+            <h3>SMK TI BAZMA KABUPATEN BOGOR</h3>
         </div>
         <div class="profile">
             <div class="biodata">
@@ -146,10 +250,10 @@
             </div>
             <div class="profile-img">
                 <?php
-                    $path = public_path($guru->foto);
-                    $type = pathinfo($path, PATHINFO_EXTENSION);
-                    $data = file_get_contents($path);
-                    $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+                $path = public_path($guru->foto);
+                $type = pathinfo($path, PATHINFO_EXTENSION);
+                $data = file_get_contents($path);
+                $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
                 ?>
                 <img src="{{ $base64 }}" alt="Profile Image">
             </div>

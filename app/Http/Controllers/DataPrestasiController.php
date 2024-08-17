@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\prestasiRequest;
 use App\Models\DataPrestasi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -73,80 +74,72 @@ class DataPrestasiController extends Controller
         return $dompdf->stream('data_prestasi.pdf');
     }
 
-
-    public function create() {
+    public function create()
+    {
         return view('database.prestasi.add');
     }
 
+    public function store(prestasiRequest $request)
+    {
+        // Validate incoming request data
+        $validatedData = $request->validated();
 
-    public function store(Request $request)
-{
-    // Validate incoming request data
-    $validatedData = $request->validate([
-        'nama' => 'required|string|max:50',
-        'status' => 'required|in:Guru,Siswa',
-        'tanggal_lomba' => 'required|date',
-        'tempat_lomba' => 'required|string',
-        'peringkat' => 'required|string|max:40',
-    ]);
-
-    // Handle file upload
-    $file = $request->file('path_sertifikat');
-    $namaFile =  Str::random(30) . '.' . $file->getClientOriginalExtension();
-    $file->move(public_path('/files/prestasi/' . $request->status . '/'), $namaFile);
-
-    // Create a new DataPrestasi record with file path
-    DataPrestasi::create(array_merge($validatedData, [
-        'nama_file' => '/files/prestasi/' . $request->status . '/' . $namaFile,
-        'kelas' => $request->kelas
-    ]));
-
-    // Optionally, provide feedback or redirect to another page
-    return redirect()->route('prestasi.index')->with('success', 'Data berhasil di tambahkan');
-}
-
-public function update(Request $request, $id) {
-    // Validate incoming request data
-    $validatedData = $request->validate([
-        'nama' => 'required|string|max:50',
-        'tanggal_lomba' => 'required|date',
-        'tempat_lomba' => 'required|string',
-        'peringkat' => 'required|string|max:40',
-    ]);
-
-    // Find the existing DataPrestasi record by ID
-    $data = DataPrestasi::findOrFail($id);
-
-    // Handle file upload
-    $file = $request->file('path_sertifikat');
-    if ($file) {
-        // Delete the existing file if it exists
-        if (File::exists(public_path($data->nama_file))) {
-            File::delete(public_path($data->nama_file));
-        }
-
+        // Handle file upload
+        $file = $request->file('path_sertifikat');
         $namaFile =  Str::random(30) . '.' . $file->getClientOriginalExtension();
         $file->move(public_path('/files/prestasi/' . $request->status . '/'), $namaFile);
 
-        // Update the DataPrestasi record with new data and file path
-        DataPrestasi::where('id', $id)->update(array_merge($validatedData, [
+        // Create a new DataPrestasi record with file path
+        DataPrestasi::create(array_merge($validatedData, [
             'nama_file' => '/files/prestasi/' . $request->status . '/' . $namaFile,
             'kelas' => $request->kelas
         ]));
-    } else {
-        // Update the DataPrestasi record with new data without changing the file path
-        DataPrestasi::where('id', $id)->update($validatedData);
+
+        // Optionally, provide feedback or redirect to another page
+        return redirect()->route('prestasi.index')->with('success', 'Data berhasil di tambahkan');
     }
 
-    // Optionally, provide feedback or redirect to another page
-    return redirect()->route('prestasi.index')->with('success', 'Data berhasil di update');
-}
+    public function update(prestasiRequest $request, $id)
+    {
+        // Validate incoming request data
+        $validatedData = $request->validated();
 
-    public function edit($id) {
+        // Find the existing DataPrestasi record by ID
+        $data = DataPrestasi::findOrFail($id);
+
+        // Handle file upload
+        $file = $request->file('path_sertifikat');
+        if ($file) {
+            // Delete the existing file if it exists
+            if (File::exists(public_path($data->nama_file))) {
+                File::delete(public_path($data->nama_file));
+            }
+
+            $namaFile =  Str::random(30) . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('/files/prestasi/' . $request->status . '/'), $namaFile);
+
+            // Update the DataPrestasi record with new data and file path
+            DataPrestasi::where('id', $id)->update(array_merge($validatedData, [
+                'nama_file' => '/files/prestasi/' . $request->status . '/' . $namaFile,
+                'kelas' => $request->kelas
+            ]));
+        } else {
+            // Update the DataPrestasi record with new data without changing the file path
+            DataPrestasi::where('id', $id)->update($validatedData);
+        }
+
+        // Optionally, provide feedback or redirect to another page
+        return redirect()->route('prestasi.index')->with('success', 'Data berhasil di update');
+    }
+
+    public function edit($id)
+    {
         $prestasi = DataPrestasi::findOrFail($id);
         return view('database.prestasi.edit', compact('prestasi'));
     }
-    public function destroy($id) {
+
+    public function destroy($id)
+    {
         $prestasi = DataPrestasi::findOrFail($id);
         if (File::exists(public_path($prestasi->nama_file))) {
             File::delete(public_path($prestasi->nama_file));

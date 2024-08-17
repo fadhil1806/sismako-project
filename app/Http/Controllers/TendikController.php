@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TendikRequest;
 use Carbon\Carbon;
 use App\Models\Tendik;
 use App\Models\IjazahTendik;
@@ -63,29 +64,9 @@ class TendikController extends Controller
     }
 
 
-    public function update(Request $request, $id)
+    public function update(TendikRequest $request, $id)
     {
-        $validatedData = $request->validate([
-            'nama' => 'required|string|max:255',
-            'no_nik' => 'required|integer',
-            'no_gtk' => 'required|integer',
-            'no_nuptk' => 'required|integer',
-            'tempat_tanggal_lahir' => 'required|string|max:255',
-            'tanggal_lahir' => 'required|date',
-            'jenis_kelamin' => 'required|string|max:10',
-            'agama' => 'required|string|max:50',
-            'alamat' => 'required|string|max:255',
-            'status_kepegawaian' => 'required|string|max:50',
-            'no_rekening' => 'required',
-            'posisi' => 'required|string|max:255',
-            'email' => 'required|email|max:255|',
-            'pendidikan_terakhir' => 'required|string|max:50',
-            'tanggal_masuk' => 'required|date',
-            'foto' => 'required|file|mimes:png',
-            'foto_ktp' => 'required|file|mimes:png',
-            'foto_surat_keterangan_mengajar' => 'required|file|mimes:png',
-            'no_hp' => 'nullable|string|max:20',
-        ]);
+        $validatedData = $request->validated();
 
 
         $nama = $request->nama;
@@ -196,29 +177,9 @@ class TendikController extends Controller
         return $dompdf->stream( $tendik->nama .'.pdf');
     }
 
-    public function store(Request $request)
+    public function store(TendikRequest $request)
     {
-        $validatedData = $request->validate([
-            'nama' => 'required|string|max:255',
-            'no_nik' => 'required|integer|unique:tendik,no_nik',
-            'no_gtk' => 'required|integer|unique:tendik,no_gtk',
-            'no_nuptk' => 'required|integer|unique:tendik,no_nuptk',
-            'tempat_tanggal_lahir' => 'required|string|max:255',
-            'tanggal_lahir' => 'required|date',
-            'jenis_kelamin' => 'required|string|max:10',
-            'agama' => 'required|string|max:50',
-            'alamat' => 'required|string|max:255',
-            'status_kepegawaian' => 'required|string|max:50',
-            'no_rekening' => 'required',
-            'posisi' => 'required|string|max:255',
-            'email' => 'required|email|max:255|unique:tendik,email',
-            'pendidikan_terakhir' => 'required|string|max:50',
-            'tanggal_masuk' => 'required|date',
-            'foto' => 'required|file|mimes:png',
-            'foto_ktp' => 'required|file|mimes:png',
-            'foto_surat_keterangan_mengajar' => 'required|file|mimes:png',
-            'no_hp' => 'nullable|string|max:20',
-        ]);
+        $validatedData = $request->validated();
 
         $nama = $request->nama;
         $namaDir = str_replace(' ', '_', $nama);

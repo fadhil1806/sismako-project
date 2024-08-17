@@ -4,7 +4,7 @@
         <form method="post" action="{{ route('punishment.update', $punishment->id) }}" enctype="multipart/form-data">
             @csrf
             @method('PUT')
-            <div class="row">
+            <div class="row border p-3 rounded-3">
                 <div class="col-lg-4" id="asalSekolahDiv">
                     <div class="mb-3">
                         <label class="form-label">Angkatan</label>

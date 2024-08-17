@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SiswaRequest;
 use App\Models\FotoSiswa;
 use App\Models\RapotSiswa;
 use App\Models\Siswa;
@@ -46,42 +47,10 @@ class SiswaController extends Controller
     {
         return view('database.siswa.add');
     }
-    public function store(Request $request)
+    public function store(SiswaRequest $request)
     {
         // Validate the request data
-        $validatedData = $request->validate([
-            'tahun_pelajaran' => 'required|string|max:20',
-            'nama' => 'required|string|max:50',
-            'nisn' => 'required|string|max:20',
-            'nis' => 'required|string|max:20',
-            'tempat_tanggal_lahir' => 'required|string|max:20',
-            'tanggal_lahir' => 'required|date',
-            'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
-            'agama' => 'required|in:Islam,Kristen,Buddha,Khonghucu,Hindu,Katolik',
-            'alamat' => 'required|string',
-            'tanggal_masuk' => 'required|date',
-            'angkatan' => 'required',
-            'nama_ayah' => 'required|string|max:50',
-            'nama_ibu' => 'required|string|max:50',
-            'pekerjaan_ayah' => 'required|string|max:50',
-            'pekerjaan_ibu' => 'required|string|max:50',
-            'no_hp_wali' => 'required|string|max:20',
-            'diterima_di_kelas' => 'required|string|max:20',
-            'asal_sekolah' => 'required|string|max:20',
-            'alamat_asal_sekolah' => 'required|string|max:255',
-            'rapot_kelas7' => 'required|file',
-            'rapot_kelas8' => 'required|file',
-            'rapot_kelas9' => 'required|file',
-            'ijazah' => 'required|file',
-            'surat_Kelulusan' => 'required|file',
-            'kk' => 'required|file',
-            'akta_kelahiran' => 'required|file',
-            'surat_pernyataan_calonPesertaDidik' => 'required|file',
-            'surat_pernyataan_wali' => 'required|file',
-            'surat_pernyataan_tidak_merokok' => 'required|file',
-            'status_siswa' => 'required',
-        ]);
-
+        $validatedData = $request->validated();
 
         $nama = $request->nama;
         $namaDir = str_replace(' ', '_', $nama);
@@ -172,42 +141,9 @@ class SiswaController extends Controller
         return view('database.siswa.edit', compact('siswa'));
     }
 
-    public function update(Request $request, $id)
+    public function update(SiswaRequest $request, $id)
     {
-        // Validate the request data
-        $validatedData = $request->validate([
-            'tahun_pelajaran' => 'required|string|max:20',
-            'nama' => 'required|string|max:50',
-            'nisn' => 'required|string|max:20',
-            'nis' => 'required|string|max:20',
-            'tempat_tanggal_lahir' => 'required|string|max:20',
-            'tanggal_lahir' => 'required|date',
-            'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
-            'agama' => 'required|in:Islam,Kristen,Buddha,Khonghucu,Hindu,Katolik',
-            'alamat' => 'required|string',
-            'tanggal_masuk' => 'required|date',
-            'nama_ayah' => 'required|string|max:50',
-            'nama_ibu' => 'required|string|max:50',
-            'pekerjaan_ayah' => 'required|string|max:50',
-            'pekerjaan_ibu' => 'required|string|max:50',
-            'no_hp_wali' => 'required|string|max:20',
-            'diterima_di_kelas' => 'required|string|max:20',
-            'angkatan' => 'required',
-            'asal_sekolah' => 'required|string|max:20',
-            'alamat_asal_sekolah' => 'required|string|max:255',
-            'rapot_kelas7' => 'required|file',
-            'rapot_kelas8' => 'required|file',
-            'rapot_kelas9' => 'required|file',
-            'ijazah' => 'required|file',
-            'surat_Kelulusan' => 'required|file',
-            'kk' => 'required|file',
-            'akta_kelahiran' => 'required|file',
-            'surat_pernyataan_calonPesertaDidik' => 'required|file',
-            'surat_pernyataan_wali' => 'required|file',
-            'surat_pernyataan_tidak_merokok' => 'required|file',
-            'status_siswa' => 'required|in:Aktif,Tidak aktif',
-        ]);
-
+$validatedData = $request->validated();
         $siswa = Siswa::findOrFail($id);
 
         // Menghapus folder lama jika ada

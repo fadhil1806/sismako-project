@@ -7,6 +7,8 @@ use App\Http\Controllers\DataMutasiController;
 use App\Http\Controllers\DataPrestasiController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GuruController;
+use App\Http\Controllers\JamaahSiswaController;
+use App\Http\Controllers\PatroliAsramaController;
 use App\Http\Controllers\PklAdministrasiSekolahController;
 use App\Http\Controllers\PklAdministrasiSiswaController;
 use App\Http\Controllers\PunishmentController;
@@ -22,10 +24,7 @@ Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');
 
-Route::view('pkl', 'database.pkl.pkl')
-    ->name('pkl');
-
-
+Route::view('pkl', 'database.pkl.pkl')->name('pkl');
 
 Route::controller(PklAdministrasiSekolahController::class)->group(function () {
     Route::get('pkl/adm-sekolah', 'index')->name('pkl.sekolah.index');
@@ -48,7 +47,6 @@ Route::controller(PklAdministrasiSiswaController::class)->group(function () {
 Route::controller(GuruController::class)->group(function () {
     Route::get('/guru', 'index')->name('guru.index');
     Route::get('/guru/create', 'create')->name('guru.create');
-    Route::get('/guru/export/{id}', 'export')->name('guru.export');
     Route::get('/guru/edit/{id}', 'edit')->name('guru.edit');
     Route::post('/guru/update/{id}', 'update')->name('guru.update');
     Route::post('/guru/create/data', 'store')->name('guru.store');
@@ -144,5 +142,37 @@ Route::get('/punishment/export-pdf', 'exportPdf')->name('punishment.export');
 });
 
 Route::get('/kelas/export', [DataKelasController::class, 'exportPdf'])->name('kelas.export');
+
+
+
+
+Route::controller(JamaahSiswaController::class)->group(function() {
+    Route::get('/jamaah', 'index')->name('jamaah.index');
+    Route::get('/jamaah/create', 'create')->name('jamaah.create');
+    Route::post('/jamaah/create/data', 'store')->name('jamaah.store');
+    Route::get('jamaah/{tanggal}/{kelas}/{sholat}/edit/{id}', [JamaahSiswaController::class, 'edit'])->name('jamaah.edit');
+    Route::put('/jamaah/{id}', [JamaahSiswaController::class, 'update'])->name('jamaah.update');
+Route::delete ('/jamaah/delete/{id}', 'destroy')->name('jamaah.destroy');
+Route::get('/jamaah/export-pdf', 'exportPdf')->name('jamaah.export');
+Route::put('/jamaah/{tanggal}/{kelas}/{sholat}/{id}', [JamaahSiswaController::class, 'update'])->name('jamaah.update');
+Route::get('/jamaah/{tanggal}/{kelas}/{sholat}/export-pdf/sholat', [JamaahSiswaController::class, 'exportPdfPerSholat'])->name('jamaah.exportPdf');
+Route::get('/jamaah/{tanggal}/{kelas}/export-pdf/hari', [JamaahSiswaController::class, 'exportPdfPerHari'])->name('jamaah.exportPdf.hari');
+Route::get('/jamaah/export-pdf-range/{start_date}/{end_date}/{kelas}', [JamaahSiswaController::class, 'exportPdfPerRange'])->name('jamaah.exportPdf.range');
+
+
+
+});
+
+Route::controller(PatroliAsramaController::class)->group(function() {
+    Route::get('/patroli/asrama', 'index')->name('patroli.asrama.index');
+    Route::get('/patroli/asrama/create', 'create')->name('patroli.asrama.create');
+    Route::get('/patroli/asrama/{id}/edit', [PatroliAsramaController::class, 'edit'])->name('patroli.asrama.edit');
+
+    Route::post('/patroli/asrama/create/data', 'store')->name('patroli.asrama.store');
+    Route::put('/patroli/asrama/{id}', [PatroliAsramaController::class, 'update'])->name('patroli.asrama.update');
+Route::delete ('/patroli/delete/{id}', 'destroy')->name('patroli.asrama.destroy');
+Route::get('/patroli/export-pdf', 'exportPdf')->name('patroli.asrama.export');
+
+});
 
 require __DIR__ . '/auth.php';

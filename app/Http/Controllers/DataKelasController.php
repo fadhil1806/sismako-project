@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\KelasRequest;
 use App\Models\DataKelas;
 use App\Models\Siswa;
 use Illuminate\Http\Request;
@@ -13,48 +14,48 @@ class DataKelasController extends Controller
 {
     /**
      * Display a listing of the resource.
-     */public function index(Request $request)
-{
-    $tahunPelajaranFilter = $request->query('tahun_pelajaran', '');
-    $kelasFilter = $request->query('kelas', '');
-    $angkatanFilter = $request->query('angkatan', '');
+     */
+    public function index(Request $request)
+    {
+        $tahunPelajaranFilter = $request->query('tahun_pelajaran', '');
+        $kelasFilter = $request->query('kelas', '');
+        $angkatanFilter = $request->query('angkatan', '');
 
-    $query = DataKelas::query();
+        $query = DataKelas::query();
 
-    if ($tahunPelajaranFilter) {
-        $query->where('tahun_pelajaran', $tahunPelajaranFilter);
+        if ($tahunPelajaranFilter) {
+            $query->where('tahun_pelajaran', $tahunPelajaranFilter);
+        }
+
+        if ($kelasFilter) {
+            $query->where('kelas', $kelasFilter);
+        }
+
+        if ($angkatanFilter) {
+            $query->where('angkatan', $angkatanFilter);
+        }
+
+        // Tambahkan kondisi untuk mengecualikan kelas "Lulus"
+        $query->where('kelas', '!=', 'Lulus');
+
+        // Order by 'no_urut'
+        $dataKelas = $query->with('siswa')->get();
+
+        // Get unique values for the filter dropdowns
+        $availableTahunPelajaran = DataKelas::select('tahun_pelajaran')->distinct()->pluck('tahun_pelajaran');
+        $availableKelas = DataKelas::select('kelas')->distinct()->pluck('kelas');
+        $availableAngkatan = DataKelas::select('angkatan')->distinct()->pluck('angkatan');
+
+        return view('database.kelas.index', compact(
+            'dataKelas',
+            'tahunPelajaranFilter',
+            'kelasFilter',
+            'angkatanFilter',
+            'availableTahunPelajaran',
+            'availableKelas',
+            'availableAngkatan'
+        ));
     }
-
-    if ($kelasFilter) {
-        $query->where('kelas', $kelasFilter);
-    }
-
-    if ($angkatanFilter) {
-        $query->where('angkatan', $angkatanFilter);
-    }
-
-    // Tambahkan kondisi untuk mengecualikan kelas "Lulus"
-    $query->where('kelas', '!=', 'Lulus');
-
-    // Order by 'no_urut'
-    $dataKelas = $query->with('siswa')->orderBy('no_urut')->get();
-
-    // Get unique values for the filter dropdowns
-    $availableTahunPelajaran = DataKelas::select('tahun_pelajaran')->distinct()->pluck('tahun_pelajaran');
-    $availableKelas = DataKelas::select('kelas')->distinct()->pluck('kelas');
-    $availableAngkatan = DataKelas::select('angkatan')->distinct()->pluck('angkatan');
-
-    return view('database.kelas.index', compact(
-        'dataKelas',
-        'tahunPelajaranFilter',
-        'kelasFilter',
-        'angkatanFilter',
-        'availableTahunPelajaran',
-        'availableKelas',
-        'availableAngkatan'
-    ));
-}
-
 
     public function upgrade()
     {
@@ -153,9 +154,6 @@ class DataKelasController extends Controller
         return view('database.kelas.edit', compact('kelas', 'angkatan', 'names', 'dataKelas'));
     }
 
-
-
-
     public function getSiswaByAngkatan(Request $request)
     {
         $angkatan = $request->query('angkatan');
@@ -191,20 +189,10 @@ class DataKelasController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(KelasRequest $request)
     {
 
-        // dd($request->all());
-        $validatedData = $request->validate([
-            'id_siswa' => 'required|unique:data_kelas,id_siswa',
-            'tahun_pelajaran' => 'required|string|max:20',
-            'no_urut' => 'required|integer',
-            'kelas' => 'nullable|in:X,XI,XII,XIII',
-            'jurusan' => 'required|string|max:50',
-            'angkatan' => 'required'
-        ], [
-            'id_siswa.unique' => 'Nama ini sudah digunakan pada kelas lain'
-        ]);
+        $validatedData = $request->validated();
 
         DataKelas::create($validatedData);
 
@@ -236,7 +224,6 @@ class DataKelasController extends Controller
             'tahun_pelajaran' => 'required',
             'jurusan' => 'required',
             'kelas' => 'required',
-            'no_urut' => 'required|integer',
         ]);
 
         $kelas = DataKelas::findOrFail($id);
@@ -244,6 +231,7 @@ class DataKelasController extends Controller
 
         return redirect()->route('kelas.index')->with('success', 'Data berhasil di update');
     }
+
 
     /**
      * Remove the specified resource from storage.

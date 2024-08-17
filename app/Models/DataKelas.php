@@ -16,7 +16,6 @@ class DataKelas extends Model
     protected $fillable = [
         'id_siswa', // Ensure this matches the field in the database
         'tahun_pelajaran',
-        'no_urut',
         'kelas',
         'jurusan',
         'angkatan'

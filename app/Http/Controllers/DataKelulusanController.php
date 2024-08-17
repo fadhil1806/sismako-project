@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\KelulusanRequest;
 use Carbon\Carbon;
 use Dompdf\Dompdf;
 use Dompdf\Options;
@@ -61,20 +62,11 @@ public function create()
         return view('database.kelulusan.edit', compact('data'));
     }
 
-    public function store(Request $request)
+    public function store(KelulusanRequest $request)
     {
 
         // dd($request->all());
-        $validatedData = $request->validate([
-            'tahun_pelajaran' => 'required|string|max:40',
-            'id_siswa' => 'required|integer',
-            'jurusan' => 'required|string|max:30',
-            'tanggal_kelulusan' => 'required|date',
-            'angkatan' => 'required|integer',
-            'karir_selanjutnya' => 'required|string|max:100',
-            'no_hp' => 'required|max:20',
-            'email' => 'required|email|max:50',
-        ]);
+        $validatedData = $request->validated();
 
         // Handle file upload
         if ($request->hasFile('path_foto')) {
@@ -93,18 +85,9 @@ public function create()
 
         return redirect()->route('kelulusan.index')->with('success', 'Data berhasil di tambahkan');
     }
-    public function update(Request $request, $id)
+    public function update(KelulusanRequest $request, $id)
     {
-        $validatedData = $request->validate([
-            'tahun_pelajaran' => 'required|string|max:40',
-            'id_siswa' => 'required',
-            'jurusan' => 'required|string|max:30',
-            'tanggal_kelulusan' => 'required|date',
-            'angkatan' => 'required|integer',
-            'karir_selanjutnya' => 'required|string|max:100',
-            'no_hp' => 'required|string|max:20',
-            'email' => 'required|email|max:50',
-        ]);
+        $validatedData = $request->validated();
         // Handle file upload
         if ($request->hasFile('path_foto')) {
             $file = $request->file('path_foto');

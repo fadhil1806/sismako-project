@@ -4,7 +4,7 @@
         <a href="{{route('mutasi.index')}}" class="btn btn-secondary mb-4">Back</a>
         <form method="post" action="{{route('mutasi.store')}}" enctype="multipart/form-data">
             @csrf
-            <div class="row">
+            <div class="row border p-3 rounded-4">
                 <div class="col-lg-8">
                     <div class="mb-3">
                         <label class="form-label">Nama Lengkap</label>

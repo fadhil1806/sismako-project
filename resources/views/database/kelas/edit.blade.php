@@ -5,7 +5,7 @@
         <form method="post" action="{{ route('kelas.update', $kelas->id) }}" enctype="multipart/form-data">
             @csrf
             @method('PUT')
-            <div class="row">
+            <div class="row border p-3 rounded-3">
                 <!-- Angkatan Filter -->
                 <div class="col-lg-3">
                     <div class="mb-3">
@@ -37,7 +37,7 @@
                     </div>
                 </div>
                 <!-- Other Form Fields -->
-                <div class="col-lg-6">
+                <div class="col-lg-4">
                     <div class="mb-3">
                         <label class="form-label">Tahun Pelajaran</label>
                         <input type="text" class="form-control" name="tahun_pelajaran" placeholder="2024-2025" value="{{ $kelas->tahun_pelajaran }}">
@@ -46,7 +46,7 @@
                         @enderror
                     </div>
                 </div>
-                <div class="col-lg-6">
+                <div class="col-lg-4">
                     <div class="mb-3">
                         <label class="form-label">Jurusan</label>
                         <input type="text" class="form-control" name="jurusan" placeholder="SIJA" value="{{ $kelas->jurusan }}">
@@ -55,7 +55,7 @@
                         @enderror
                     </div>
                 </div>
-                <div class="col-lg-6">
+                <div class="col-lg-4">
                     <div class="mb-3">
                         <label class="form-label">Kelas</label>
                         <select class="form-select" name="kelas" id="kelas" value="{{ $kelas->kelas }}">
@@ -69,18 +69,9 @@
                         @enderror
                     </div>
                 </div>
-                <div class="col-lg-6">
-                    <div class="mb-3">
-                        <label class="form-label">Nomor urut</label>
-                        <input type="number" class="form-control" name="no_urut" value="{{ $kelas->no_urut }}">
-                        @error('no_urut')
-                            <div class="text-danger mt-2">{{ $message }}</div>
-                        @enderror
-                    </div>
-                </div>
-                <div class="mt-3">
-                    <button type="submit" class="btn btn-success" id="submitButton">Submit</button>
-                </div>
+            </div>
+            <div class="mt-3">
+                <button type="submit" class="btn btn-success" id="submitButton">Submit</button>
             </div>
         </form>
     </div>

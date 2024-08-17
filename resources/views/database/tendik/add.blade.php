@@ -5,7 +5,7 @@
         <a href="{{route('tendik.index')}}" class="btn btn-secondary mb-4">Back</a>
         <form method="post" action="{{route('tendik.store')}}" id="multiStepForm" enctype="multipart/form-data">
             @csrf
-            <div id="step-1">
+            <div id="step-1" class="border p-3 rounded-3">
                 <div class="row">
                     <div class="col-lg-8">
                         <div class="mb-3">
@@ -125,7 +125,7 @@
                     </div>
                 </div>
             </div>
-            <div id="step-2" class="d-none">
+            <div id="step-2" class="d-none border p-3 rounded-3">
                 <div class="row">
                     <div class="col-lg-12 mb-3">
                         <div>
@@ -207,7 +207,7 @@
                 </div>
             </div>
 
-            <div id="step-3" class="d-none">
+            <div id="step-3" class="d-none border p-3 rounded-3">
                 <h1 class="text-center mb-6">Foto Ijazah</h1>
                 <div class="row">
                     <div class="col-lg-6 mb-3">
@@ -270,7 +270,7 @@
                 </div>
             </div>
 
-            <div id="step-4" class="d-none">
+            <div id="step-4" class="d-none border p-3 rounded-3">
                 <div class="row">
                     <div class="col-lg-6 mb-3">
                         <label class="form-label fw-bold">Foto</label>

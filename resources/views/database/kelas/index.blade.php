@@ -57,7 +57,7 @@
             <table class="table card-table table-vcenter text-nowrap datatable">
                 <thead>
                     <tr>
-                        <th>No. Urut</th>
+                        <th>Not</th>
                         <th>Nama</th>
                         <th>Tahun Pelajaran</th>
                         <th>Kelas</th>
@@ -69,7 +69,7 @@
                 <tbody>
                     @forelse ($dataKelas as $data)
                         <tr>
-                            <td>{{ $data->no_urut }}</td>
+                            <td>{{ $loop->iteration }}</td>
                             <td>{{ $data->siswa->nama ?? 'Tidak ada data' }}</td>
                             <td>{{ $data->tahun_pelajaran }}</td>
                             <td>{{ $data->kelas }}</td>

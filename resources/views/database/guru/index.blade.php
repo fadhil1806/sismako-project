@@ -44,10 +44,12 @@
                                     <button class="btn"><a href="{{route('guru.exportPdf', $data->id)}}" style="text-decoration: none">Export</a></button>
                                     <button class="btn rounded bg-success"><a href="{{route('file.guru', $data->nama)}}"><i class="bi bi-box-arrow-right text-white"></i></a></button>
                                     <button class="btn rounded bg-yellow"><a href="{{route('guru.edit', $data->id)}}"><i class="bi bi-pencil-square text-white"></i></a></button>
-                                    <form action="{{ route('guru.destroy', $data->id) }}" method="POST">
+                                    <form id="deleteForm" action="{{ route('guru.destroy', $data->id) }}" method="POST">
                                         @csrf
                                         @method('delete')
-                                        <button id="btn bg-danger" class="btn btn-danger" onclick="return confirm('Are you sure?')"><i class="bi bi-x-lg text-white"></i></button>
+                                        <button type="button" id="btnDelete" class="btn btn-danger" onclick="showModalDelete()">
+                                            <i class="bi bi-x-lg text-white"></i>
+                                        </button>
                                     </form>
                                 </div>
                             </td>
@@ -80,9 +82,46 @@
     </div>
 @endif
 
+<div class="modal modal-blur fade show" id="modal-danger" tabindex="-1" style="display: none;" aria-modal="true" role="dialog">
+    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="disabledModalDelete()"></button>
+            <div class="modal-status bg-danger"></div>
+            <div class="modal-body text-center py-4">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon mb-2 text-danger icon-lg"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M12 9v4"></path><path d="M10.363 3.591l-8.106 13.534a1.914 1.914 0 0 0 1.636 2.871h16.214a1.914 1.914 0 0 0 1.636 -2.87l-8.106 -13.536a1.914 1.914 0 0 0 -3.274 0z"></path><path d="M12 16h.01"></path></svg>
+                <h3>Are you sure?</h3>
+                <div class="text-secondary">Apakah kamu yakin ingin menghapus data ini? Data ini akan dihapus secara permanen dan tidak bisa dikembalikan.</div>
+            </div>
+            <div class="modal-footer">
+                <div class="w-100">
+                    <div class="row">
+                        <div class="col"><a href="#" class="btn w-100" data-bs-dismiss="modal" onclick="disabledModalDelete()">
+                            Cancel
+                        </a></div>
+                        <div class="col"><a href="#" class="btn btn-danger w-100" onclick="submitDeleteForm()">
+                            Delete Data
+                        </a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <script>
     function disabledAlert() {
         document.getElementById('alertSuccess').style.display = 'none';
+    }
+    function showModalDelete() {
+    document.getElementById('modal-danger').style.display = 'block';
+}
+function submitDeleteForm() {
+    document.getElementById('deleteForm').submit();
+}
+
+    function disabledModalDelete() {
+        document.getElementById('modal-danger').style.display = 'none';
     }
 </script>
 

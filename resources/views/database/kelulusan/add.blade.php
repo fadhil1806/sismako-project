@@ -4,7 +4,7 @@
         <a href="{{route('kelulusan.index')}}" class="btn btn-secondary mb-4">Back</a>
         <form method="post" action="{{route('kelulusan.store')}}" enctype="multipart/form-data">
             @csrf
-            <div class="row">
+            <div class="row border p-3 rounded-3">
                 <div class="col-lg-4" id="asalSekolahDiv">
                     <div class="mb-3">
                         <label class="form-label">Angkatan</label>

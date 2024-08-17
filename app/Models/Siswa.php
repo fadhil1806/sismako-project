@@ -9,19 +9,12 @@ class Siswa extends Model
 {
     use HasFactory;
 
-    // Define the table name if it's different from the plural form of the class name
     protected $table = 'siswa';
 
-    // Define the primary key if it's different from 'id'
     protected $primaryKey = 'id';
 
-    // If the primary key is not an incrementing integer, set the incrementing property to false
     public $incrementing = true;
 
-    // Define the data type of the primary key if it's different from int
-    // protected $keyType = 'bigint';
-
-    // Define the fields that are mass assignable
     protected $fillable = [
         'tahun_pelajaran',
         'nama',
@@ -54,18 +47,25 @@ class Siswa extends Model
 
     protected $dates = ['tanggal_masuk'];
 
-    // Define the relationship with RapotSiswa
+    // Relasi dengan model JamaahSiswa
+    public function jamaahSiswa()
+    {
+        return $this->hasMany(JamaahSiswa::class, 'id_siswa', 'id');
+    }
+
+    // Relasi lainnya dengan RapotSiswa
     public function rapotSiswa()
     {
         return $this->hasMany(RapotSiswa::class, 'id_siswa', 'id');
     }
 
-    // Define the relationship with FotoSiswa
+    // Relasi dengan FotoSiswa
     public function fotoSiswa()
     {
         return $this->hasMany(FotoSiswa::class, 'id_siswa', 'id');
     }
 
+    // Relasi dengan DataKelas
     public function dataKelas()
     {
         return $this->hasMany(DataKelas::class, 'siswa_id', 'id');

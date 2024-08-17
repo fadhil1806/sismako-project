@@ -17,7 +17,6 @@ return new class extends Migration
             $table->foreign('id_siswa')->references('id')->on('siswa')->cascadeOnDelete();
             $table->integer('angkatan');
             $table->string('tahun_pelajaran', 20);
-            $table->integer('no_urut');
             $table->enum('kelas', ['X', 'XI', 'XII', 'XIII', 'Lulus'])->nullable();
             $table->string('jurusan', 50);
             $table->timestamps();

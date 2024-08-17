@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PklAdminSekolahRequest;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
@@ -45,14 +46,9 @@ public function index(Request $request)
     }
 
     // Store a newly created resource in storage
-    public function store(Request $request)
+    public function store(PklAdminSekolahRequest $request)
     {
-        $validatedData = $request->validate([
-            'tahun_ajaran' => 'required|string|max:10',
-            'nama_perusahaan' => 'required|string|max:40',
-            'path_foto_siswa_dan_perusahaan' => 'required|file',
-            'path_foto_mov' => 'required|file',
-        ]);
+        $validatedData = $request->validated();
 
         // Handle file upload
         if ($request->hasFile('path_foto_siswa_dan_perusahaan')) {
@@ -96,14 +92,9 @@ public function index(Request $request)
     }
 
     // Update the specified resource in storage
-    public function update(Request $request, $id)
+    public function update(PklAdminSekolahRequest $request, $id)
     {
-        $validatedData = $request->validate([
-            'tahun_ajaran' => 'required|string|max:10',
-            'nama_perusahaan' => 'required|string|max:40',
-            'path_foto_siswa_dan_perusahaan' => 'sometimes|file',
-            'path_foto_mov' => 'sometimes|file',
-        ]);
+        $validatedData = $request->validated();
 
         // Temukan data yang akan diperbarui
         $sekolah = PklAdministrasiSekolah::findOrFail($id);
