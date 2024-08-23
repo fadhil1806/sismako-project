@@ -84,10 +84,16 @@ class TendikController extends Controller
 
         if ($request->hasFile('foto_surat_keterangan_mengajar')) $imageNamaFotoSk = $this->fileSetup($request->file('foto_surat_keterangan_mengajar'), $nama, 'Foto-SK-Mengajar-', $namaDir);
 
-        $folderPath = public_path('img/tendik/' . $tendik->nama);
-        if (File::exists($folderPath)) {
-            File::deleteDirectory($folderPath);
+        $oldDirname = str_replace(' ', '_', $tendik->nama);
+        $newDirname = str_replace(' ', '_', $request->nama);
+
+        if ($oldDirname !== $newDirname) {
+            $baseDirOld = public_path('img/tendik/' . $oldDirname);
+            if (File::exists($baseDirOld)) {
+                File::deleteDirectory($baseDirOld);
+            }
         }
+
 
         $tendik->update(array_merge(
             $validatedData,
@@ -110,7 +116,7 @@ class TendikController extends Controller
 
         foreach ($ijazahTypes as $fileKey => $jenisIjazah) {
             if ($request->hasFile($fileKey)) {
-                $imageNamaFile = $this->fileSetup($request->file($fileKey), $request->nama, "Foto-Ijazah-{$jenisIjazah}-", $namaDir, '/ijazah');
+                $imageNamaFile = $this->fileSetup($request->file($fileKey), str_replace(' ', '_', $request->nama), "Foto-Ijazah-{$jenisIjazah}-", $namaDir, '/ijazah');
                 $ijazahData[] = [
                     'id_tendik' => $idTendik,
                     'jenis_ijazah' => $jenisIjazah,
@@ -179,6 +185,7 @@ class TendikController extends Controller
 
     public function store(TendikRequest $request)
     {
+        // dd($request->all());
         $validatedData = $request->validated();
 
         $nama = $request->nama;

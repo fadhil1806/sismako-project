@@ -280,6 +280,9 @@
                                 <button type="button" class="btn d-none" style="height: 100%;" id="btn-remove-foto" onclick="removeFile('foto')"><i class="fa-solid fa-x"></i></button>
                             </div>
                         </div>
+                        @error('foto')
+                        <div class="text-danger mt-2">{{$message}}</div>
+                    @enderror
                     </div>
                     <div class="col-lg-6 mb-3">
                         <label class="form-label fw-bold">FOTO KTP</label>
@@ -289,6 +292,9 @@
                                 <button type="button" class="btn d-none" style="height: 100%;" id="btn-remove-foto_ktp" onclick="removeFile('foto_ktp')"><i class="fa-solid fa-x"></i></button>
                             </div>
                         </div>
+                        @error('foto_ktp')
+                        <div class="text-danger mt-2">{{$message}}</div>
+                    @enderror
                     </div>
                     <div class="col-lg-12 mb-3">
                         <label class="form-label fw-bold">FOTO Surat Keterangan Mengajar</label>
@@ -298,6 +304,9 @@
                                 <button type="button" class="btn d-none" style="height: 100%;" id="btn-remove-foto_surat_keterangan_mengajar" onclick="removeFile('foto_surat_keterangan_mengajar')"><i class="fa-solid fa-x"></i></button>
                             </div>
                         </div>
+                        @error('foto_surat_keterangan_mengajar')
+                        <div class="text-danger mt-2">{{$message}}</div>
+                    @enderror
                     </div>
                     <div class="col-lg-12 mb-3">
                         <label class="form-label fw-bold">Foto sertifikat (opsional)</label>
@@ -307,6 +316,9 @@
                                 <button type="button" class="btn d-none" style="height: 100%;" id="btn-remove-foto_sertifikat" onclick="removeFile('foto_sertifikat')"><i class="fa-solid fa-x"></i></button>
                             </div>
                         </div>
+                        @error('foto_sertifikat')
+                        <div class="text-danger mt-2">{{$message}}</div>
+                    @enderror
                     </div>
                 </div>
             </div>

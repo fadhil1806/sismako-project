@@ -6,11 +6,12 @@
     // Function to set a single file input
     const setFileInput = async (fileName, inputName) => {
         if (fileName) {
+            const url = `${window.location.protocol}//${window.location.hostname}:${window.location.port}${fileName}`;
             const inputElement = document.querySelector(`input[name="${inputName}"]`);
             if (inputElement) {
 
                 try {
-                    const response = await fetch(`/${fileName}`);
+                    const response = await fetch(url);
                     if (!response.ok) {
                         throw new Error('Network response was not ok');
                     }
@@ -21,7 +22,7 @@
                         lastModified: new Date(),
                     });
 
-                    console.log(file)
+                    // console.log(file)
 
                     const dataTransfer = new DataTransfer();
                     dataTransfer.items.add(file);

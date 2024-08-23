@@ -1,20 +1,30 @@
 <?php
 
-use App\Http\Controllers\DatabaseDashboard;
-use App\Http\Controllers\DataKelasController;
-use App\Http\Controllers\DataKelulusanController;
-use App\Http\Controllers\DataMutasiController;
-use App\Http\Controllers\DataPrestasiController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\GuruController;
-use App\Http\Controllers\JamaahSiswaController;
-use App\Http\Controllers\PatroliAsramaController;
-use App\Http\Controllers\PklAdministrasiSekolahController;
-use App\Http\Controllers\PklAdministrasiSiswaController;
-use App\Http\Controllers\PunishmentController;
-use App\Http\Controllers\SiswaController;
-use App\Http\Controllers\TendikController;
 use App\Http\Controllers\ZipController;
+use App\Http\Controllers\GuruController;
+use App\Http\Controllers\fiqihController;
+use App\Http\Controllers\lombaController;
+use App\Http\Controllers\SiswaController;
+use App\Http\Controllers\akhlakController;
+use App\Http\Controllers\tafsirController;
+use App\Http\Controllers\tahsinController;
+use App\Http\Controllers\tajwidController;
+use App\Http\Controllers\TendikController;
+use App\Http\Controllers\DatabaseDashboard;
+use App\Http\Controllers\tahfidzController;
+use App\Http\Controllers\eventualController;
+use App\Http\Controllers\DataKelasController;
+use App\Http\Controllers\pelatihanController;
+use App\Http\Controllers\DataMutasiController;
+use App\Http\Controllers\PunishmentController;
+use App\Http\Controllers\sertifikatController;
+use App\Http\Controllers\JamaahSiswaController;
+use App\Http\Controllers\DataPrestasiController;
+use App\Http\Controllers\DataKelulusanController;
+use App\Http\Controllers\PatroliAsramaController;
+use App\Http\Controllers\PklAdministrasiSiswaController;
+use App\Http\Controllers\PklAdministrasiSekolahController;
 
 Route::view('/', 'welcome');
 
@@ -25,6 +35,9 @@ Route::view('profile', 'profile')
     ->name('profile');
 
 Route::view('pkl', 'database.pkl.pkl')->name('pkl');
+
+Route::view('sekolah-keasramaan', 'page.home.keasramaan')
+    ->name('keasramaan');
 
 Route::controller(PklAdministrasiSekolahController::class)->group(function () {
     Route::get('pkl/adm-sekolah', 'index')->name('pkl.sekolah.index');
@@ -131,14 +144,14 @@ Route::get('/zip-file/siswa/{nama}', [ZipController::class, 'zipFileSiswa'])->na
 Route::get('/zip-file/pkl/sekolah/{id}', [ZipController::class, 'zipFilePklSekolah'])->name('file.pkl.sekolah');
 Route::get('/zip-file/pkl/siswa/{id}', [ZipController::class, 'zipFilePklSiswa'])->name('file.siswa.sekolah');
 
-Route::controller(PunishmentController::class)->group(function() {
+Route::controller(PunishmentController::class)->group(function () {
     Route::get('/punishment', 'index')->name('punishment.index');
     Route::get('/punishment/create', 'create')->name('punishment.create');
     Route::post('/punishment/create/data', 'store')->name('punishment.store');
     Route::get('/punishment/{id}/edit', [PunishmentController::class, 'edit'])->name('punishment.edit');
-Route::put('/punishment/{id}', [PunishmentController::class, 'update'])->name('punishment.update');
-Route::delete ('/punishment/delete/{id}', 'destroy')->name('punishment.destroy');
-Route::get('/punishment/export-pdf', 'exportPdf')->name('punishment.export');
+    Route::put('/punishment/{id}', [PunishmentController::class, 'update'])->name('punishment.update');
+    Route::delete('/punishment/delete/{id}', 'destroy')->name('punishment.destroy');
+    Route::get('/punishment/export-pdf', 'exportPdf')->name('punishment.export');
 });
 
 Route::get('/kelas/export', [DataKelasController::class, 'exportPdf'])->name('kelas.export');
@@ -146,33 +159,136 @@ Route::get('/kelas/export', [DataKelasController::class, 'exportPdf'])->name('ke
 
 
 
-Route::controller(JamaahSiswaController::class)->group(function() {
+Route::controller(JamaahSiswaController::class)->group(function () {
     Route::get('/jamaah', 'index')->name('jamaah.index');
     Route::get('/jamaah/create', 'create')->name('jamaah.create');
     Route::post('/jamaah/create/data', 'store')->name('jamaah.store');
     Route::get('jamaah/{tanggal}/{kelas}/{sholat}/edit/{id}', [JamaahSiswaController::class, 'edit'])->name('jamaah.edit');
     Route::put('/jamaah/{id}', [JamaahSiswaController::class, 'update'])->name('jamaah.update');
-Route::delete ('/jamaah/delete/{id}', 'destroy')->name('jamaah.destroy');
-Route::get('/jamaah/export-pdf', 'exportPdf')->name('jamaah.export');
-Route::put('/jamaah/{tanggal}/{kelas}/{sholat}/{id}', [JamaahSiswaController::class, 'update'])->name('jamaah.update');
-Route::get('/jamaah/{tanggal}/{kelas}/{sholat}/export-pdf/sholat', [JamaahSiswaController::class, 'exportPdfPerSholat'])->name('jamaah.exportPdf');
-Route::get('/jamaah/{tanggal}/{kelas}/export-pdf/hari', [JamaahSiswaController::class, 'exportPdfPerHari'])->name('jamaah.exportPdf.hari');
-Route::get('/jamaah/export-pdf-range/{start_date}/{end_date}/{kelas}', [JamaahSiswaController::class, 'exportPdfPerRange'])->name('jamaah.exportPdf.range');
-
-
-
+    Route::delete('/jamaah/delete/{id}', 'destroy')->name('jamaah.destroy');
+    Route::get('/jamaah/export-pdf', 'exportPdf')->name('jamaah.export');
+    Route::put('/jamaah/{tanggal}/{kelas}/{sholat}/{id}', [JamaahSiswaController::class, 'update'])->name('jamaah.update');
+    Route::get('/jamaah/{tanggal}/{kelas}/{sholat}/export-pdf/sholat', [JamaahSiswaController::class, 'exportPdfPerSholat'])->name('jamaah.exportPdf');
+    Route::get('/jamaah/{tanggal}/{kelas}/export-pdf/hari', [JamaahSiswaController::class, 'exportPdfPerHari'])->name('jamaah.exportPdf.hari');
+    Route::get('/jamaah/export-pdf-range/{start_date}/{end_date}/{kelas}', [JamaahSiswaController::class, 'exportPdfPerRange'])->name('jamaah.exportPdf.range');
 });
 
-Route::controller(PatroliAsramaController::class)->group(function() {
+Route::controller(PatroliAsramaController::class)->group(function () {
     Route::get('/patroli/asrama', 'index')->name('patroli.asrama.index');
     Route::get('/patroli/asrama/create', 'create')->name('patroli.asrama.create');
     Route::get('/patroli/asrama/{id}/edit', [PatroliAsramaController::class, 'edit'])->name('patroli.asrama.edit');
 
     Route::post('/patroli/asrama/create/data', 'store')->name('patroli.asrama.store');
     Route::put('/patroli/asrama/{id}', [PatroliAsramaController::class, 'update'])->name('patroli.asrama.update');
-Route::delete ('/patroli/delete/{id}', 'destroy')->name('patroli.asrama.destroy');
-Route::get('/patroli/export-pdf', 'exportPdf')->name('patroli.asrama.export');
+    Route::delete('/patroli/delete/{id}', 'destroy')->name('patroli.asrama.destroy');
+    Route::get('/patroli/export-pdf', 'exportPdf')->name('patroli.asrama.export');
+});
 
+
+// Keasramaan Mufiz
+
+Route::view('sekolah-keasramaan/al-quran', 'page.keasramaan.quran.quran')
+    ->name('quran');
+
+Route::view('sekolah-keasramaan/akademik', 'page.keasramaan.akademik.akademik')
+    ->name('akademik');
+
+Route::view('sekolah-keasramaan/jurnal-asrama', 'page.keasramaan.jurnal.jurnal')
+    ->name('jurnal');
+
+
+//clear
+Route::controller(tahfidzController::class)->group(function () {
+    Route::get('/sekolah-keasramaan/al-quran/tahfidz', 'index')->name('tahfidz');
+    Route::get('/sekolah-keasramaan/al-quran/tahfidz/create', 'create')->name('tahfidz.create');
+    Route::post('/sekolah-keasramaan/al-quran/tahfidz/store', 'store')->name('tahfidz.perform');
+    Route::get('/sekolah-keasramaan/al-quran/tahfidz/edit/{id}', 'edit')->name('tahfidz.edit');
+    Route::put('/sekolah-keasramaan/al-quran/tahfidz/update/{id}', 'update')->name('tahfidz.update');
+    Route::delete('/sekolah-keasramaan/al-quran/tahfidz/delete/{id}', 'destroy')->name('tahfidz.delete');
+});
+
+//clear
+Route::controller(tahsinController::class)->group(function () {
+    Route::get('/sekolah-keasramaan/al-quran/tahsin', 'index')->name('tahsin');
+    Route::get('/sekolah-keasramaan/al-quran/tahsin/create', 'create')->name('tahsin.create');
+    Route::post('/sekolah-keasramaan/al-quran/tahsin/store', 'store')->name('tahsin.perform');
+    Route::get('/sekolah-keasramaan/al-quran/tahsin/edit/{id}', 'edit')->name('tahsin.edit');
+    Route::put('/sekolah-keasramaan/al-quran/tahsin/update/{id}', 'update')->name('tahsin.update');
+    Route::delete('/sekolah-keasramaan/al-quran/tahsin/delete/{id}', 'destroy')->name('tahsin.delete');
+});
+
+//clear
+Route::controller(sertifikatController::class)->group(function () {
+    Route::get('/sekolah-keasramaan/al-quran/sertif', 'index')->name('sertifikat');
+    Route::get('/sekolah-keasramaan/al-quran/sertif/create', 'create')->name('sertifikat.create');
+    Route::post('/sekolah-keasramaan/al-quran/sertif/store', 'store')->name('sertifikat.perform');
+    Route::get('/sekolah-keasramaan/al-quran/sertif/edit/{id}', 'edit')->name('sertifikat.edit');
+    Route::put('/sekolah-keasramaan/al-quran/sertif/update/{id}', 'update')->name('sertifikat.update');
+    Route::delete('/sekolah-keasramaan/al-quran/sertif/delete/{id}', 'destroy')->name('sertifikat.delete');
+});
+
+//clear in http://127.0.0.1:8000/sekolah-keasramaan/akademik/pelatihan/create
+Route::controller(pelatihanController::class)->group(function () {
+    Route::get('/sekolah-keasramaan/akademik/pelatihan', 'index')->name('pelatihan.index');
+    Route::get('/sekolah-keasramaan/akademik/pelatihan/create', 'create')->name('pelatihan.create');
+    Route::post('/sekolah-keasramaan/akademik/pelatihan/store', 'store')->name('pelatihan.store');
+    Route::get('/sekolah-keasramaan/akademik/pelatihan/edit/{id}', 'edit')->name('pelatihan.edit');
+    Route::put('/sekolah-keasramaan/akademik/pelatihan/update/{id}', 'update')->name('pelatihan.update');
+    Route::delete('/sekolah-keasramaan/akademik/pelatihan/delete/{id}', 'destroy')->name('pelatihan.delete');
+});
+
+//clear
+Route::controller(lombaController::class)->group(function () {
+    Route::get('/sekolah-keasramaan/akademik/lomba', 'index')->name('lomba.index');
+    Route::get('/sekolah-keasramaan/akademik/lomba/create', 'create')->name('lomba.create');
+    Route::post('/sekolah-keasramaan/akademik/lomba/store', 'store')->name('lomba.store');
+    Route::get('/sekolah-keasramaan/akademik/lomba/edit/{id}', 'edit')->name('lomba.edit');
+    Route::put('/sekolah-keasramaan/akademik/lomba/update/{id}', 'update')->name('lomba.update');
+    Route::delete('/sekolah-keasramaan/akademik/lomba/delete/{id}', 'destroy')->name('lomba.delete');
+});
+
+//clear
+Route::controller(eventualController::class)->group(function () {
+    Route::get('/sekolah-keasramaan/akademik/eventual', 'index')->name('eventual.index');
+    Route::get('/sekolah-keasramaan/akademik/eventual/create', 'create')->name('eventual.create');
+    Route::post('/sekolah-keasramaan/akademik/eventual/store', 'store')->name('eventual.store');
+    Route::get('/sekolah-keasramaan/akademik/eventual/edit/{id}', 'edit')->name('eventual.edit');
+    Route::put('/sekolah-keasramaan/akademik/eventual/update/{id}', 'update')->name('eventual.update');
+    Route::delete('/sekolah-keasramaan/akademik/eventual/delete/{id}', 'destroy')->name('eventual.delete');
+});
+
+
+Route::controller(akhlakController::class)->group(function () {
+    Route::get('/sekolah-keasramaan/jurnal-asrama/akhlak', 'index')->name('akhlak.index');
+    Route::get('/sekolah-keasramaan/jurnal-asrama/akhlak/create', 'create')->name('akhlak.create');
+    Route::post('/sekolah-keasramaan/jurnal-asrama/akhlak/store', 'store')->name('akhlak.store');
+    Route::get('/sekolah-keasramaan/jurnal-asrama/akhlak/edit/{id}', 'edit')->name('akhlak.edit');
+    Route::put('/sekolah-keasramaan/jurnal-asrama/akhlak/update/{id}', 'update')->name('akhlak.update');
+    Route::delete('/sekolah-keasramaan/jurnal-asrama/akhlak/delete/{id}', 'destroy')->name('akhlak.delete');
+});
+Route::controller(fiqihController::class)->group(function () {
+    Route::get('/sekolah-keasramaan/jurnal-asrama/fiqih', 'index')->name('fiqih.index');
+    Route::get('/sekolah-keasramaan/jurnal-asrama/fiqih/create', 'create')->name('fiqih.create');
+    Route::post('/sekolah-keasramaan/jurnal-asrama/fiqih/store', 'store')->name('fiqih.store');
+    Route::get('/sekolah-keasramaan/jurnal-asrama/fiqih/edit/{id}', 'edit')->name('fiqih.edit');
+    Route::put('/sekolah-keasramaan/jurnal-asrama/fiqih/update/{id}', 'update')->name('fiqih.update');
+    Route::delete('/sekolah-keasramaan/jurnal-asrama/fiqih/delete/{id}', 'destroy')->name('fiqih.delete');
+});
+Route::controller(tafsirController::class)->group(function () {
+    Route::get('/sekolah-keasramaan/jurnal-asrama/tafsir', 'index')->name('tafsir.index');
+    Route::get('/sekolah-keasramaan/jurnal-asrama/tafsir/create', 'create')->name('tafsir.create');
+    Route::post('/sekolah-keasramaan/jurnal-asrama/tafsir/store', 'store')->name('tafsir.store');
+    Route::get('/sekolah-keasramaan/jurnal-asrama/tafsir/edit/{id}', 'edit')->name('tafsir.edit');
+    Route::put('/sekolah-keasramaan/jurnal-asrama/tafsir/update/{id}', 'update')->name('tafsir.update');
+    Route::delete('/sekolah-keasramaan/jurnal-asrama/tafsir/delete/{id}', 'destroy')->name('tafsir.delete');
+});
+Route::controller(tajwidController::class)->group(function () {
+    Route::get('/sekolah-keasramaan/jurnal-asrama/tajwid', 'index')->name('tajwid.index');
+    Route::get('/sekolah-keasramaan/jurnal-asrama/tajwid/create', 'create')->name('tajwid.create');
+    Route::post('/sekolah-keasramaan/jurnal-asrama/tajwid/store', 'store')->name('tajwid.store');
+    Route::get('/sekolah-keasramaan/jurnal-asrama/tajwid/edit/{id}', 'edit')->name('tajwid.edit');
+    Route::put('/sekolah-keasramaan/jurnal-asrama/tajwid/update/{id}', 'update')->name('tajwid.update');
+    Route::delete('/sekolah-keasramaan/jurnal-asrama/tajwid/delete/{id}', 'destroy')->name('tajwid.delete');
 });
 
 require __DIR__ . '/auth.php';

@@ -68,6 +68,6 @@ class Siswa extends Model
     // Relasi dengan DataKelas
     public function dataKelas()
     {
-        return $this->hasMany(DataKelas::class, 'siswa_id', 'id');
+        return $this->hasMany(DataKelas::class, 'id_siswa', 'id');
     }
 }

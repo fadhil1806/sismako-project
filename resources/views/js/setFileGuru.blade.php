@@ -9,9 +9,11 @@
             const inputElement = document.querySelector(`input[name="ijazah_${jenisIjazah}"]`);
 
             if (inputElement) {
-                const filePath = `/img/guru/${namaGuru}/ijazah/${ijazah.nama_file}`;
+                console.log(ijazah.nama_file)
+                const url = `${window.location.protocol}//${window.location.hostname}:${window.location.port}/${ijazah.nama_file}`;
+                // const filePath = `/img/guru/${namaGuru}/ijazah/${ijazah.nama_file}`;
 
-                fetch(filePath)
+                fetch(url)
                     .then(response => response.blob())
                     .then(blob => {
                         const file = new File([blob], ijazah.nama_file, {
@@ -27,16 +29,16 @@
             }
         });
 
-        const setFileInput = (fileName, inputName) => {
-            if (fileName) {
+        const setFileInput = (filePath, inputName) => {
+            if (filePath) {
+                const url = `${window.location.protocol}//${window.location.hostname}:${window.location.port}/${filePath}`;
                 const inputElement = document.querySelector(`input[name="${inputName}"]`);
                 if (inputElement) {
-                    const filePath = `/img/guru/${namaGuru}/${fileName}`;
 
-                    fetch(filePath)
+                    fetch(url)
                         .then(response => response.blob())
                         .then(blob => {
-                            const file = new File([blob], fileName, {
+                            const file = new File([blob], filePath, {
                                 type: blob.type,
                                 lastModified: new Date(),
                             });

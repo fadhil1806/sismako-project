@@ -37,9 +37,9 @@ class TendikRequest extends FormRequest
             'email' => 'required|email|max:255|',
             'pendidikan_terakhir' => 'required|string|max:50',
             'tanggal_masuk' => 'required|date',
-            'foto' => 'required|file|mimes:png',
-            'foto_ktp' => 'required|file|mimes:png',
-            'foto_surat_keterangan_mengajar' => 'required|file|mimes:png',
+            'foto' => 'required|file',
+            'foto_ktp' => 'required|file',
+            'foto_surat_keterangan_mengajar' => 'required|file',
             'no_hp' => 'nullable|string|max:20',
         ];
     }

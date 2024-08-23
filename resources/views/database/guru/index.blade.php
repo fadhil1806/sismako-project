@@ -41,7 +41,7 @@
                             <td><span class="badge bg-success me-1"></span>{{ $data->status_kepegawaian }}</td>
                             <td>
                                 <div class="btn-list flex-nowrap">
-                                    <button class="btn"><a href="{{route('guru.exportPdf', $data->id)}}" style="text-decoration: none">Export</a></button>
+                                    <button class="btn"><a href="{{route('guru.exportPdf', $data->id)}}" style="text-decoration: none" target="_blank">Export</a></button>
                                     <button class="btn rounded bg-success"><a href="{{route('file.guru', $data->nama)}}"><i class="bi bi-box-arrow-right text-white"></i></a></button>
                                     <button class="btn rounded bg-yellow"><a href="{{route('guru.edit', $data->id)}}"><i class="bi bi-pencil-square text-white"></i></a></button>
                                     <form id="deleteForm" action="{{ route('guru.destroy', $data->id) }}" method="POST">

@@ -32,17 +32,14 @@ class SiswaController extends Controller
         // Pindahkan file ke direktori tujuan
         $file->move($fullPath, $imageFileName);
 
-        return $fullPath . $imageFileName;
+        return '/' . $fullPath . $imageFileName;
     }
-
-
     private function createDirectoryIfNotExists($path)
-{
-    if (!File::exists($path)) {
-        File::makeDirectory($path, 0755, true);
+    {
+        if (!File::exists($path)) {
+            File::makeDirectory($path, 0755, true);
+        }
     }
-}
-
     public function create()
     {
         return view('database.siswa.add');
@@ -129,7 +126,6 @@ class SiswaController extends Controller
 
         return redirect()->route('siswa.index')->with('success', 'Data berhasil ditambahkan');
     }
-
     public function edit($id)
     {
         $siswa = Siswa::with('rapotSiswa', 'fotoSiswa')->findOrFail($id);
@@ -140,10 +136,9 @@ class SiswaController extends Controller
         }
         return view('database.siswa.edit', compact('siswa'));
     }
-
     public function update(SiswaRequest $request, $id)
     {
-$validatedData = $request->validated();
+        $validatedData = $request->validated();
         $siswa = Siswa::findOrFail($id);
 
         // Menghapus folder lama jika ada
@@ -232,7 +227,6 @@ $validatedData = $request->validated();
 
         return redirect()->route('siswa.index')->with('success', 'Data berhasil di update');
     }
-
     public function destroy($id)
     {
         $data = Siswa::findOrFail($id);
@@ -251,7 +245,6 @@ $validatedData = $request->validated();
 
         return redirect()->route('siswa.index')->with('success', 'Data berhasil dihapus');
     }
-
     public function exportPdf($id)
     {
         // $siswa = Siswa::findOrFail($id);
@@ -283,8 +276,6 @@ $validatedData = $request->validated();
         // Render PDF (important step!)
         $dompdf->render();
 
-        return $dompdf->stream($siswa->nama . '.pdf');
+        return $dompdf->stream($siswa->nama . '.pdf', ['Attachment' => false]);
     }
-
-
 }

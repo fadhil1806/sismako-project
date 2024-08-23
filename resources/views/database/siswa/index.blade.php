@@ -38,7 +38,7 @@
                             <td>{{ $data->status_siswa }}</td>
                             <td>
                                 <div class="btn-list flex-nowrap">
-                                    <button class="btn"><a href="{{ route('siswa.exportPdf', $data->id) }}"
+                                    <button class="btn"><a target="_blank" href="{{ route('siswa.exportPdf', $data->id) }}"
                                             style="text-decoration: none">Export</a></button>
                                     <button class="btn rounded bg-success"><a
                                             href="{{ route('file.siswa', $data->nama) }}"><i

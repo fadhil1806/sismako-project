@@ -123,27 +123,28 @@ class GuruController extends Controller
 
         $guru = Guru::findOrFail($id);
 
-        // Menghapus folder lama jika ada
+        // Handle old directory removal only if the name has changed
         $oldDirname = str_replace(' ', '_', $guru->nama);
-        $baseDirOld = public_path('img/guru/' . $oldDirname);
-        if (File::exists($baseDirOld)) {
-            File::deleteDirectory($baseDirOld);
+        $newDirname = str_replace(' ', '_', $request->nama);
+
+        if ($oldDirname !== $newDirname) {
+            $baseDirOld = public_path('img/guru/' . $oldDirname);
+            if (File::exists($baseDirOld)) {
+                File::deleteDirectory($baseDirOld);
+            }
         }
 
         // Prepare new directory
-        $nama = $request->nama;
-        $namaDir = str_replace(' ', '_', $nama);
-        $baseDir = public_path("img/guru/{$namaDir}");
+        $baseDir = public_path("img/guru/{$newDirname}");
         $this->createDirectoryIfNotExists($baseDir);
         $this->createDirectoryIfNotExists("{$baseDir}/ijazah");
         $this->createDirectoryIfNotExists("{$baseDir}/sertifikat");
 
         // Handle file uploads
-        $imageNamaFoto = $request->hasFile('foto') ? $this->fileSetup($request->file('foto'), $nama, 'Foto-', $namaDir) : null;
-        $imageNamaFotoKtp = $request->hasFile('foto_ktp') ? $this->fileSetup($request->file('foto_ktp'), $nama, 'Foto-KTP-', $namaDir) : null;
-        $imageNamaFotoSk = $request->hasFile('foto_surat_keterangan_mengajar') ? $this->fileSetup($request->file('foto_surat_keterangan_mengajar'), $nama, 'Foto-SK-Mengajar-', $namaDir) : null;
+        $imageNamaFoto = $request->hasFile('foto') ? $this->fileSetup($request->file('foto'), $request->nama, 'Foto-', $newDirname) : $guru->foto;
+        $imageNamaFotoKtp = $request->hasFile('foto_ktp') ? $this->fileSetup($request->file('foto_ktp'), $request->nama, 'Foto-KTP-', $newDirname) : $guru->foto_ktp;
+        $imageNamaFotoSk = $request->hasFile('foto_surat_keterangan_mengajar') ? $this->fileSetup($request->file('foto_surat_keterangan_mengajar'), $request->nama, 'Foto-SK-Mengajar-', $newDirname) : $guru->foto_surat_keterangan_mengajar;
 
-        $guru = Guru::findOrFail($id);
         // Update the Guru record with validated data
         $guru->update(array_merge(
             $validatedData,
@@ -155,8 +156,6 @@ class GuruController extends Controller
             ]
         ));
 
-        $idGuru = $id;
-
         $ijazahData = [];
         $ijazahTypes = [
             'ijazah_smp' => 'SMP',
@@ -167,7 +166,7 @@ class GuruController extends Controller
 
         foreach ($ijazahTypes as $fileKey => $jenisIjazah) {
             if ($request->hasFile($fileKey)) {
-                $imageNamaFile = $this->fileSetup($request->file($fileKey), $request->nama, "Foto-Ijazah-{$jenisIjazah}-", $namaDir, '/ijazah');
+                $imageNamaFile = $this->fileSetup($request->file($fileKey), $request->nama, "Foto-Ijazah-{$jenisIjazah}-", $newDirname, '/ijazah');
                 $ijazahData[] = [
                     'id_guru' => $id,
                     'jenis_ijazah' => $jenisIjazah,
@@ -189,19 +188,19 @@ class GuruController extends Controller
 
         if ($request->hasFile('foto_sertifikat')) {
             $files = $request->file('foto_sertifikat');
-            $sertifikatDir = 'img/guru/' . $namaDir . '/sertifikat';
+            $sertifikatDir = 'img/guru/' . $newDirname . '/sertifikat';
 
             foreach ($files as $index => $file) {
-                $imageNamaSertifikat = $this->fileSetup($file, $nama, 'Sertifikat-' . ($index + 1) . '-', $namaDir, '/sertifikat');
-                $sertifikatData[] = ['id_guru' => $idGuru, 'nama_file' => $imageNamaSertifikat];
+                $imageNamaSertifikat = $this->fileSetup($file, $request->nama, 'Sertifikat-' . ($index + 1) . '-', $newDirname, '/sertifikat');
+                $sertifikatData[] = ['id_guru' => $id, 'nama_file' => $imageNamaSertifikat];
             }
         }
 
         if (!empty($sertifikatData)) SertifikatGuru::insert($sertifikatData);
 
-
         return redirect()->route('guru.index')->with('success', 'Data berhasil di update');
     }
+
 
 
     public function exportPdf($id)
@@ -218,7 +217,9 @@ class GuruController extends Controller
         $dompdf->setPaper('A4', 'portrait');
         $dompdf->render();
 
-        return $dompdf->stream($guru->nama . '.pdf');
+        // return $dompdf->stream($guru->nama . '.pdf');
+            return $dompdf->stream($guru->nama . '.pdf', ['Attachment' => false]);
+
     }
 
     public function download($id, Request $request)
