@@ -70,4 +70,20 @@ class Siswa extends Model
     {
         return $this->hasMany(DataKelas::class, 'id_siswa', 'id');
     }
+    public function tahfidzSiswa() {
+        return $this->hasMany(tahfidz::class, 'siswa_id', 'id');
+    }
+    public function tahsinSiswa() {
+        return $this->hasMany(tahsin::class, 'siswa_id', 'id');
+    }
+    public function sertifikatSiswa() {
+        return $this->hasMany(sertifikat::class, 'siswa_id', 'id');
+    }
+    public function pelatihanSiswa() {
+        return $this->hasMany(Pelatihan::class, 'siswa_id', 'id');
+    }
+    public function jurnalAsramaSiswa() {
+        return $this->hasMany(akhlak::class, 'siswa_id', 'id');
+    }
+
 }

@@ -21,6 +21,7 @@ use App\Http\Controllers\PunishmentController;
 use App\Http\Controllers\sertifikatController;
 use App\Http\Controllers\JamaahSiswaController;
 use App\Http\Controllers\DataPrestasiController;
+use App\Http\Controllers\ProgresSiswaController;
 use App\Http\Controllers\DataKelulusanController;
 use App\Http\Controllers\PatroliAsramaController;
 use App\Http\Controllers\PklAdministrasiSiswaController;
@@ -38,6 +39,9 @@ Route::view('pkl', 'database.pkl.pkl')->name('pkl');
 
 Route::view('sekolah-keasramaan', 'page.home.keasramaan')
     ->name('keasramaan');
+
+Route::get('/progres/siswa/{nisn}', [ProgresSiswaController::class, 'index']);
+
 
 Route::controller(PklAdministrasiSekolahController::class)->group(function () {
     Route::get('pkl/adm-sekolah', 'index')->name('pkl.sekolah.index');

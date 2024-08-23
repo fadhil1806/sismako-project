@@ -21,4 +21,9 @@ class tahfidz extends Model
     {
         return $this->belongsTo(Siswa::class);
     }
+
+    public function scopeBetweenDates($query, $startDate, $endDate)
+    {
+        return $query->whereBetween('tanggal', [$startDate, $endDate]);
+    }
 }
