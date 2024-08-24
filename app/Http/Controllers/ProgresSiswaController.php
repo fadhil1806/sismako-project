@@ -12,6 +12,7 @@ use App\Models\Tahsin;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\View;
+use DateTime;
 
 class ProgresSiswaController extends Controller
 {
@@ -20,6 +21,18 @@ class ProgresSiswaController extends Controller
         // Retrieve start_date and end_date from query parameters
         $start_date = $request->query('start_date');
         $end_date = $request->query('end_date');
+
+        // Mengonversi string tanggal ke objek DateTime
+        $start = new DateTime($start_date);
+        $end = new DateTime($end_date);
+
+        // Menghitung selisih hari antara dua tanggal
+        $interval = $start->diff($end);
+
+        // Mendapatkan jumlah hari
+        $jumlah_hari = $interval->days;
+
+        // dd($jumlah_hari);
 
         // Retrieve siswa data with related models
         $siswa = Siswa::where('nisn', $nisn)
@@ -49,23 +62,12 @@ class ProgresSiswaController extends Controller
         // Categorize jurnalAsramaSiswa data by 'type'
         $jurnalData = $jurnalAsramaSiswa->groupBy('type');
 
-        // Extract data or set empty collections if not present
-        // $akhlakData = $jurnalData->get('akhlak', collect());
-        // $fiqihData = $jurnalData->get('fiqih', collect());
-        // $tafsirData = $jurnalData->get('tafsir', collect());
-        // $tajwidData = $jurnalData->get('tajwid', collect());
+        $jumlah_minggu = ceil($jumlah_hari / 7);
 
-        $akhlakData = $jurnalData->get('akhlak', collect())->take(4);
-        $fiqihData = $jurnalData->get('fiqih', collect())->take(4);
-        $tafsirData = $jurnalData->get('tafsir', collect())->take(4);
-        $tajwidData = $jurnalData->get('tajwid', collect())->take(4);
-
-        //         $akhlakData = $jurnalData->get('akhlak', collect())->sortByDesc('tanggal')->take(4);
-        // $fiqihData = $jurnalData->get('fiqih', collect())->sortByDesc('tanggal')->take(4);
-        // $tafsirData = $jurnalData->get('tafsir', collect())->sortByDesc('tanggal')->take(4);
-        // $tajwidData = $jurnalData->get('tajwid', collect())->sortByDesc('tanggal')->take(4);
-
-        // dd($akhlakData, $fiqihData, $tafsirData, $tajwidData); // Debug output
+        $tajwidData = $jurnalData->get('tajwid', collect())->take(-6);
+        $tafsirData = $jurnalData->get('tafsir', collect())->take(-6);
+        $fiqihData = $jurnalData->get('fiqih', collect())->take(-6);
+        $akhlakData = $jurnalData->get('akhlak', collect())->take(-6);
 
 
         // Combine all data into a single array

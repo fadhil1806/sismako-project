@@ -109,7 +109,8 @@
         <div class="header">
             <h2>PROGRES PESERTA DIDIK</h2>
             <h3>SMK TI BAZMA</h3>
-            <p>Tanggal: {{ \Carbon\Carbon::parse($start_date)->translatedFormat('d F Y') }} - {{ \Carbon\Carbon::parse($end_date)->translatedFormat('d F Y') }}</p>
+            <p>Tanggal: {{ \Carbon\Carbon::parse($start_date)->translatedFormat('d F Y') }} -
+                {{ \Carbon\Carbon::parse($end_date)->translatedFormat('d F Y') }}</p>
         </div>
         <table class="info-table">
             <tr>
@@ -117,7 +118,8 @@
                 <td>: {{ $siswa->nama }}</td>
                 <td rowspan="4">
                     <div class="photo-box">
-                        <img src="{{$siswa->fotoSiswa[0]->path_file}}" alt="" style="height: 140px; border-radius: 10px">
+                        <img src="{{ $siswa->fotoSiswa[0]->path_file }}" alt=""
+                            style="height: 140px; border-radius: 10px">
                     </div>
                 </td>
             </tr>
@@ -224,7 +226,7 @@
                 @endforeach
             </tbody>
         </table>
-        <table class="section jurnal-section">
+        {{-- <table class="section jurnal-section">
             <thead>
                 <tr>
                     <th colspan="2">FIQIH</th>
@@ -267,13 +269,74 @@
                     </tr>
                 @endfor
             </tbody>
+        </table> --}}
+
+        <table id="jurnalTable" class="section jurnal-section">
+            <thead>
+                <tr>
+                    <td>Tanggal</td>
+                    <td>Materi</td>
+                    <td>Tanggal</td>
+                    <td>Materi</td>
+                    <td>Tanggal</td>
+                    <td>Materi</td>
+                    <td>Tanggal</td>
+                    <td>Materi</td>
+                </tr>
+            </thead>
+            <tbody id="jurnalBody">
+                <!-- Rows will be dynamically inserted here -->
+            </tbody>
         </table>
 
     </div>
 </body>
 <script>
     const data = @json($siswa);
-    console.log(data);
+
+    // Convert tajwid object to an array
+    const tajwidArray = Object.values(data.jurnalAsramaSiswa.tajwid);
+
+    // Calculate the maximum number of rows needed
+    const maxRows = Math.max(
+        data.jurnalAsramaSiswa.akhlak.length,
+        data.jurnalAsramaSiswa.fiqih.length,
+        data.jurnalAsramaSiswa.tafsir.length,
+        tajwidArray.length
+    );
+
+    // Get the table body element
+    const jurnalBody = document.getElementById('jurnalBody');
+
+    // Function to create a table cell with text
+    const createCell = (text) => {
+        const cell = document.createElement('td');
+        cell.innerText = text || '';
+        return cell;
+    };
+
+    // Populate the table
+    for (let i = 0; i < maxRows; i++) {
+        const row = document.createElement('tr');
+
+        const fiqih = data.jurnalAsramaSiswa.fiqih[i] || {};
+        row.appendChild(createCell(fiqih.tanggal));
+        row.appendChild(createCell(fiqih.materi));
+
+        const akhlak = data.jurnalAsramaSiswa.akhlak[i] || {};
+        row.appendChild(createCell(akhlak.tanggal));
+        row.appendChild(createCell(akhlak.materi));
+
+        const tafsir = data.jurnalAsramaSiswa.tafsir[i] || {};
+        row.appendChild(createCell(tafsir.tanggal));
+        row.appendChild(createCell(tafsir.materi));
+
+        const tajwid = tajwidArray[i] || {};
+        row.appendChild(createCell(tajwid.tanggal));
+        row.appendChild(createCell(tajwid.materi));
+
+        jurnalBody.appendChild(row);
+    }
 </script>
 
 </html>
